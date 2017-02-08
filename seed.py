@@ -1,14 +1,14 @@
-"""Utility file to seed ratings database from MovieLens data in seed_data/"""
-
 import datetime
 from sqlalchemy import func
-
-from model import User, connect_to_db, db
+from model import User, Country, connect_to_db, db
 from server import app
-
+import urllib2
+import json 
 
 def load_users():
     """Load users from u.user into database."""
+
+    User.query.delete()
 
     print "Users"
 
@@ -34,21 +34,71 @@ def load_users():
     # Once we're done, we should commit our work
     db.session.commit()
 
+# bangladesh = Country(country_code='BD', country_name='Bangladesh', currency_code='TK', currency_name='Taka', currency_per_USD=70, bread_price=1, meal_price=2, apt_price=3)
+
+def country_to_country_code():
+
+    Country.query.delete()
+
+    for i, row in enumerate(open("seed_data/u.country_code")):
+        row = row.rstrip()
+        country_name, country_code, currency_name, currency_code = row.split(",")
+        
+        country = Country(country_name=country_name,
+            country_code=country_code,
+            currency_name=currency_name,
+            currency_code=currency_code)
+
+        db.session.add(country)
+    db.session.commit()
+
+def usd_to_currency():
+
+    url = 'https://www.numbeo.com/api/currency_exchange_rates?api_key=ps0u1c65ijsjqn'
+    json_obj = urllib2.urlopen(url) 
+    data = json.load(json_obj)
+
+    for item in data['exchange_rates']:
+        currency_per_USD = (item['one_usd_to_currency'])
+        currency_code = item['currency']
+        # if the currency name is the same as the currency name in the database
+
+        countries = Country.query.filter(Country.currency_code == currency_code).all()
+
+        if countries: 
+            for country in countries: 
+                country.currency_per_USD = currency_per_USD
+                db.session.commit()
+        else:
+            pass 
+        
+
+
 
 # def load_countries():
 #     """Load movies from u.item into database."""
 
+# # bangladesh = Country(country_code='BD', country_name='Bangladesh', currency_code='TK', currency_name='Taka', currency_per_USD=70, bread_price=1, meal_price=2, apt_price=3)
+
+# # db.session.add(bangladesh)
+# # db.session.commit()
+
 #     print "Countries"
+#     country_to_country_code()
 
-#     for i, row in enumerate(open("seed_data/u.meal_cost")):
-#         row = row.rstrip()
 
-#         # clever -- we can unpack part of the row!
-#         countries  = row.split("|")
-#         print countries
 
-        # The date is in the file as daynum-month_abbreviation-year;
-        # we need to convert it to an actual datetime object.
+
+
+    # for i, row in enumerate():
+    #     row = row.rstrip()
+
+    #     # clever -- we can unpack part of the row!
+    #     countries  = row.split("|")
+    #     print countries
+
+    #     The date is in the file as daynum-month_abbreviation-year;
+    #     we need to convert it to an actual datetime object.
 
     #     if released_str:
     #         released_at = datetime.datetime.strptime(released_str, "%d-%b-%Y")
@@ -135,6 +185,8 @@ if __name__ == "__main__":
     # load_countries()
     # load_ratings()
     # set_val_user_id()
+    country_to_country_code()
+    usd_to_currency()
 
     # # Mimic what we did in the interpreter, and add the Eye and some ratings
     # eye = User(email="the-eye@of-judgment.com", password="evil")

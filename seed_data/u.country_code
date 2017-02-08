@@ -154,7 +154,6 @@ Korea North,KP,Won,KPW
 Korea South,KR,Won,KRW
 Kuwait,KW,Kuwaiti Dinar,KWD
 Kyrgyzstan,KG,Som,KGS
-Lao PeopleÕs Democratic Republic,LA,Kip,LAK
 Latvia,LV,Lat,LVL
 Lebanon,LB,Lebanese Pound,LBP
 Lesotho,LS,Loti,LSL
@@ -234,12 +233,10 @@ Aland Islands,AX,Euro,EUR
 Angola,AO,Angolan kwanza,AOA
 Antarctica,AQ,Antarctican dollar,AQD
 Bosnia and Herzegovina,BA,Bosnia and Herzegovina convertible mark,BAM
-Congo (Kinshasa),CD,Congolese Frank,CDF
 Ghana,GH,Ghana cedi,GHS
 Guernsey,GG,Guernsey pound,GGP
 Isle of Man,IM,Manx pound,GBP
 Laos,LA,Lao kip,LAK
-Macao S.A.R.,MO,Macanese pataca,MOP
 Montenegro,ME,Euro,EUR
 Palestinian Territory,PS,Jordanian dinar,JOD
 Saint Barthelemy,BL,Euro,EUR
@@ -247,4 +244,3 @@ Saint Helena,SH,Saint Helena pound,GBP
 Saint Martin (French part),MF,Netherlands Antillean guilder,ANG
 Saint Pierre and Miquelon,PM,Euro,EUR
 Serbia,RS,Serbian dinar,RSD
-US Armed Forces,USAF,US Dollar,USD

@@ -42,10 +42,10 @@ class Country(db.Model):
 
     country_code = db.Column(db.String(2),
                          primary_key=True)
-    full_name = db.Column(db.String(100), nullable=True)
-    currency_id = db.Column(db.String(3), nullable=True)
+    country_name = db.Column(db.String(100), nullable=True)
+    currency_code = db.Column(db.String(3), nullable=True)
     currency_name = db.Column(db.String(64), nullable=True)
-    one_usd_to_currency = db.Column(db.Integer, nullable=True)
+    currency_per_USD = db.Column(db.Integer, nullable=True)
     bread_price = db.Column(db.Integer, nullable=True)
     meal_price = db.Column(db.Integer, nullable=True)
     apt_price = db.Column(db.Integer, nullable=True)
@@ -53,8 +53,8 @@ class Country(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Country full_name=%s currency_id=%s>" % (self.movie_id,
-                                                 self.title)
+        return "<Country country_name=%s currency_name=%s>" % (self.country_name,
+                                                                self.currency_name)
 
 
 # class Rating(db.Model):
