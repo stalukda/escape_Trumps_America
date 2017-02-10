@@ -29,14 +29,12 @@ class User(db.Model):
     zipcode = db.Column(db.String(15), nullable=True)
 
     def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return "<User user_id=%s email=%s>" % (self.user_id,
-                                               self.first_name,
-                                               self.last_name)
+        return "<User user_id=%s fname=%s lname=%s>" % (self.user_id,
+                                               self.fname,
+                                               self.lname)
 
 class Country(db.Model):
-    """Movie on ratings website."""
+    """Countries to display on the website."""
 
     __tablename__ = "countries"
 
@@ -51,42 +49,31 @@ class Country(db.Model):
     apt_price = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
-        """Provide helpful representation when printed."""
 
         return "<Country country_name=%s currency_name=%s>" % (self.country_name,
                                                                 self.currency_name)
 
 
-# class Rating(db.Model):
-#     """Rating of a movie by a user."""
+class User/Country(db.Model):
+    """Countries to display on the website."""
 
-#     __tablename__ = "ratings"
+    __tablename__ = "users/countries"
 
-#     rating_id = db.Column(db.Integer,
-#                           autoincrement=True,
-#                           primary_key=True)
-#     movie_id = db.Column(db.Integer,
-#                          db.ForeignKey('movies.movie_id'))
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-#     score = db.Column(db.Integer)
+    uc_id = db.Column(db.Integer,
+                    autoincrement=True,
+                    primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    country_code = db.Column(db.String(2), db.ForeignKey('countries.country_code'))
 
-#     # Define relationship to user
-#     user = db.relationship("User",
-#                            backref=db.backref("ratings",
-#                                               order_by=rating_id))
+    # Define relationship to user
+    user = db.relationship("User", backref=db.backref("users/countries", order_by=uc_id))
 
-#     # Define relationship to movie
-#     movie = db.relationship("Movie",
-#                             backref=db.backref("ratings",
-#                                                order_by=rating_id))
+    # Define relationship to movie
+    country = db.relationship("Country", backref=db.backref("users/countries", order_by=uc_id))
 
-#     def __repr__(self):
-#         """Provide helpful representation when printed."""
+    def __repr__(self):
 
-#         s = "<Rating rating_id=%s movie_id=%s user_id=%s score=%s>"
-#         return s % (self.rating_id, self.movie_id, self.user_id,
-#                     self.score)
-
+        return "<User/Country uc_id=%s>" % (self.uc_id)
 
 #####################################################################
 # Helper functions
