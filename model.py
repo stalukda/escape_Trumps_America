@@ -54,26 +54,25 @@ class Country(db.Model):
                                                                 self.currency_name)
 
 
-class User/Country(db.Model):
+class User_Country(db.Model):
     """Countries to display on the website."""
 
-    __tablename__ = "users/countries"
+    __tablename__ = "users_countries"
 
     uc_id = db.Column(db.Integer,
                     autoincrement=True,
                     primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    country_code = db.Column(db.String(2), db.ForeignKey('countries.country_code'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    country_code = db.Column(db.String(2), db.ForeignKey('countries.country_code'), nullable=True)
 
-    # Define relationship to user
-    user = db.relationship("User", backref=db.backref("users/countries", order_by=uc_id))
-
-    # Define relationship to movie
-    country = db.relationship("Country", backref=db.backref("users/countries", order_by=uc_id))
+    user = db.relationship("User", backref=db.backref("users_countries", order_by=uc_id))
+    country = db.relationship("Country", backref=db.backref("users_countries", order_by=uc_id))
 
     def __repr__(self):
 
-        return "<User/Country uc_id=%s>" % (self.uc_id)
+        return "<User_Country uc_id=%s>" % (self.uc_id)
+
+
 
 #####################################################################
 # Helper functions

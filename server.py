@@ -109,16 +109,28 @@ def user_detail(user_id):
     return render_template("user.html", user=user)
 
 
-@app.route("/map_of_world")
+@app.route("/map_of_world", methods="GET")
+def map_countries():
+    """Pick 3-5 countries to compare based on map & top 10 list"""
+
+    # countries = Country.query.order_by('country_name').all()
+    return render_template("map_of_world.html")
+
+
+@app.route("/compare_countries", methods="POST")
 def compare_countries():
-    """PLACEHOLDER: (unclickable) map of world."""
+    """Compare the 3-5 chosen countries"""
 
+    #grab form values from Map page. BUT HOW FOR MULTIPLE SELECTS? + IMport jquery 
+    var values = [];
+    $('#countries :selected').each(function(i, selected){
+    values[i] = $(selected).text();
+    });
+
+    #if the country picked from the Map page is in the db
+    ##then, grab that country's COL + other info from db 
     countries = Country.query.order_by('country_name').all()
-    return render_template("map_of_world.html", countries=countries)
-
-
-
-
+    return render_template("country_display.html", countries=countries, values=values)
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the

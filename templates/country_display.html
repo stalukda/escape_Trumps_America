@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2> Compare countries </h2>
+
+<div id="country1"> 
+
+</div>
+
+<div class="well spaced" style="width:50%;">
+    <h2>Countries</h2>
+        <ul>
+            {% for value in values %}
+    <li>
+    {{ value }}</a>
+    </li>
+        {% endfor %}
+            </ul>
+</div>
+
+
+
+{% endblock %}
