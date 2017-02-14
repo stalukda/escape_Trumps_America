@@ -108,35 +108,51 @@ def user_detail(user_id):
     user = User.query.get(user_id)
     return render_template("user.html", user=user)
 
+@app.route("/button", methods=['GET'])
+def country_search_button():
+    """Chosen button for search"""
 
-@app.route("/map_of_world", methods="GET")
-def map_countries():
-    """Pick 3-5 countries to compare based on map & top 10 list"""
-
-    # countries = Country.query.order_by('country_name').all()
-    return render_template("map_of_world.html")
+    return render_template("search_button.html")
 
 
-@app.route("/compare_countries", methods="POST")
+@app.route("/cost_of_living_map")
+def display_map():
+    """Render cost of living map"""
+
+    return render_template("cost_of_living_map.html")
+
+
+@app.route("/top_ten_list")
+def top_ten_list():
+    """List top 10 least expensive countries"""
+    pass
+
+
+@app.route("/map_of_world", methods=["GET"])
+def choose_countries():
+    """Choose 3-5 countries to compare based on map & top 10 list"""
+
+    return render_template("pick_countries.html")
+
+
+@app.route("/compare_countries", methods=["GET"])
 def compare_countries():
     """Compare the 3-5 chosen countries"""
 
-    #grab form values from Map page. BUT HOW FOR MULTIPLE SELECTS? + IMport jquery 
-    var values = [];
-    $('#countries :selected').each(function(i, selected){
-    values[i] = $(selected).text();
-    });
+    nations = request.args.getlist('countries')
 
     #if the country picked from the Map page is in the db
+        # countries = Country.query.order_by('country_name').all()
     ##then, grab that country's COL + other info from db 
-    countries = Country.query.order_by('country_name').all()
-    return render_template("country_display.html", countries=countries, values=values)
+
+    return render_template("country_display.html", nations=nations)
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
-    # app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
+    app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
     connect_to_db(app)
 

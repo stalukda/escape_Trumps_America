@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Countries</title>
-  <link rel="stylesheet" href="static/style.css">
-  <link rel="stylesheet" href="static/chosen.css">
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/chosen.css">
+  <link rel="stylesheet" href="static/docsupport/style.css">
+  <link rel="stylesheet" href="static/docsupport/prism.css">
   <style type="text/css" media="all">
     .chosen-rtl .chosen-drop { left: -9000px; }
   </style>
-</head>
-<body>
 
+  <title>Countries</title>
+
+</head>
+
+<body>
    <div id="content">
-       <form action="/compare_countries" method="POST">
+     <form id= "search_button" action="/compare_countries" method="GET">
           <em>Countries</em>
-          <select multiple id="countries" data-placeholder="Compare cost of living (up to 5 countries)" class="chosen-select" multiple style="width:350px;" tabindex="4">
+          <select id="countries" name="countries" multiple="countries" data-placeholder="Compare cost of living (up to 5 countries)" class="chosen-select" multiple style="width:350px;" tabindex="4">
             <option value=""></option>
             <option value="United States">United States</option>
             <option value="United Kingdom">United Kingdom</option>
@@ -268,26 +272,40 @@
             <option value="Zambia">Zambia</option>
             <option value="Zimbabwe">Zimbabwe</option>
           </select>
-        <input type="submit">
+        <input type="submit" id="button">
        </form>
       </div>
       
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-  <script src="chosen.jquery.js" type="text/javascript"></script>
 
-  <script type="text/javascript">
-    var config = {
-      '.chosen-select'           : {max_selected_options:5},
-      '.chosen-select-deselect'  : {allow_single_deselect:true},
-      '.chosen-select-no-single' : {disable_search_threshold:10},
-      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"95%"},
-    }
-    for (var selector in config) {
-      $(selector).chosen(config[selector]);
-    }
-  </script>
+      <script src="https://code.jquery.com/jquery.js" type="text/javascript"></script>
+      <script src="/static/chosen.jquery.js" type="text/javascript"></script>
+      <script src="/static/chosen.proto.js" type="text/javascript"></script>
+      <script src="/static/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+      <script type="text/javascript">
  
-</body>
+            //configuring the button  
+            var config = {
+            '.chosen-select'           : {max_selected_options:5},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"},
+            }
+          
+            for (var selector in config) {
+            $(selector).chosen(config[selector]);
+            }
+
+            //capturing the values submitted 
+            function displayVals(evt) {
+                  // evt.preventDefault()
+                  var chosen_countries = $( "#countries" ).val();
+                  return chosen_countries;
+            }
+
+            $("#button").on('click', displayVals);
+
+      </script>
+   </body>
 </html>
 
