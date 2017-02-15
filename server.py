@@ -139,42 +139,24 @@ def choose_countries():
 def compare_countries():
     """Compare the 3-5 chosen countries"""
 
-    # rebinding the user's picked countries to the nation variable 
     nations = request.args.getlist('countries')
-    nations_to_display = []
-    urls_to_display = []
+    country_info = []
 
     for nation in nations: 
         url = "https://www.kiva.org/lend?country="
         #check each nation picked against the db 
         country = Country.query.filter_by(country_name=nation).first()
+        
         if country: 
-            url = url + country.country_code
-            urls_to_display.append(url) 
-            nations_to_display.append(country)
+            country_with_urls = {}
+            country_with_urls[country] = url + country.country_code
+            country_info.append(country_with_urls)
         else: 
             pass 
 
 
-    return render_template("country_display.html", nations=nations_to_display, urls_to_display=urls_to_display)
 
-    # nations = request.args.getlist('countries')
-    # nations_to_display = []
-
-    # for nation in nations: 
-    #     url = "https://www.kiva.org/lend?country="
-    #     #check each nation picked against the db 
-    #     country = Country.query.filter_by(country_name=nation).first()
-    #     if country: 
-    #         #add the url + nation to country_info... lots of little dictionaries to put
-    #         #into the list 
-    #         country_info = {}
-    #         country_info[country] = url + country.country_code
-    #         nations_to_display.append(country_info)
-    #     else: 
-    #         pass 
-
-    # return render_template("country_display.html", nations=nations_to_display)
+    return render_template("country_display.html", country_info=country_info)
    
 
 

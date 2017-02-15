@@ -2,7 +2,7 @@
 {% block content %}
 
     <h2>Countries: </h2>
-    
+
     <table>
     <tr>
     <th>Name </th>
@@ -13,37 +13,21 @@
     <th>Invest in local entrepreneur</th>
     </tr>
 
-    {% for nation in nations %}
-    <tr>
-        <td>{{ nation.country_name}} </td>
-        <td>{{ nation.currency_per_USD }} </td>
-        <td>{{ nation.bread_price }} </td>
-        <td>{{ nation.meal_price  }} </td>
-        <td>{{ nation.apt_price   }} </td>
-        
-        {% for url in urls_to_display %}
-        <td> <a href={{ url }}> Invest </a> </td>
-        {% endfor %}
-
+{% for countries in country_info %}
+    {% for country in countries %}
+        <tr>
+        <td>{{ country.country_name}} </td>
+        <td>{{ country.currency_per_USD }} </td>
+        <td>{{ country.bread_price }} </td>
+        <td>{{ country.meal_price  }} </td>
+        <td>{{ country.apt_price   }} </td>
+        <td>{{ country.apt_price   }} </td>
+         <td> <a href={{ countries[country]  }}> Invest </a> </td>
     </tr>
     {% endfor %}
-
-    <!--         donate to Kiva country  -->
-<!--         {% for nation in nations %}
-    <tr>
-        <td>{{ nation.country_name}} </td>
-        <td>{{ nation.currency_per_USD }} </td>
-        <td>{{ nation.bread_price }} </td>
-        <td>{{ nation.meal_price  }} </td>
-        <td>{{ nation.apt_price   }} </td>
-        
-        {% for url in urls_to_display %}
-        <td> <a href={{ url }}> Invest </a> </td>
-        {% endfor %}
-
-    </tr>
-    {% endfor %} -->
-
+{% endfor %}
 
 </table>
+
 {% endblock %}
+
