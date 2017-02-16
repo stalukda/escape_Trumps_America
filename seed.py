@@ -4,33 +4,29 @@ from model import User, Country, connect_to_db, db
 from server import app
 import urllib2
 import json 
-import flatdict
 
 def load_users():
     """Load users from u.user into travelers database."""
 
-    User.query.delete()
+    # User.query.delete()
 
     print "Users"
 
     for i, row in enumerate(open("seed_data/u.user")):
         print "Seeding entry #: ", i 
         row = row.rstrip()
-        fname, lname, email, password, age, zipcode = row.split("|")
+        fname, lname, email, password, age, zipcode, home_country = row.split("|")
 
         user = User(fname=fname,
                     lname=lname,
                     email=email,
                     password=password,
                     age=age,
-                    zipcode=zipcode)
+                    zipcode=zipcode,
+                    home_country=home_country)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(user)
-
-        # provide some sense of progress
-        if i % 100 == 0:
-            print i
 
     db.session.commit()
 
@@ -120,25 +116,21 @@ def load_cost_of_living():
         except: 
             pass 
 
-def load_kiva_data():
-
-    """Load loan info from Kiva into travelers db"""
-
-    url = 'http://api.kivaws.org/v1/loans/search.json?country_code=kh'
-    json_obj = urllib2.urlopen(url)
-    data = json.load(json_obj)
-    flat = flatdict.FlatDict(data)
 
 
 if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
 
-    # load_users()
+   #seed users table 
+    load_users()
+
+   #seed countries table 
     # load_countries()
-    # load_currency
-    # load_1_usd_to_currency
+    # load_currency()
+    # load_1_usd_to_currency()
     # load_cost_of_living()
-    load_kiva_data()
+
+   #can also seed users_countries table if desired
 
    

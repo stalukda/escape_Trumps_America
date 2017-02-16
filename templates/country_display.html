@@ -1,31 +1,36 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h2>Countries: </h2>
+<h2>Countries: </h2>
 
-    <table>
+<table>
     <tr>
-    <th>Name </th>
-    <th>Worth per USD </th>
-    <th>Average bread price </th>
-    <th>Average meal price </th>
-    <th>Average apartment price per month </th>
-    <th>Invest in local entrepreneur</th>
+        <th>Country </th>
+        <th>Worth per USD </th>
+        <th>Average bread price </th>
+        <th>Average meal price </th>
+        <th>Average apartment price per month </th>
+        <th>Invest in local entrepreneur</th>
     </tr>
 
-{% for countries in country_info %}
-    {% for country in countries %}
-        <tr>
-        <td>{{ country.country_name}} </td>
-        <td>{{ country.currency_per_USD }} </td>
-        <td>{{ country.bread_price }} </td>
-        <td>{{ country.meal_price  }} </td>
-        <td>{{ country.apt_price   }} </td>
-        <td>{{ country.apt_price   }} </td>
-         <td> <a href={{ countries[country]  }}> Invest </a> </td>
+    <tr>
+        <td> {{ user.home_country }} </td>
     </tr>
+ 
+
+    {% for countries in country_info %}
+        {% for country in countries %}
+        <tr>
+            <td>{{ country.country_name}} </td>
+            <td>{{ country.currency_per_USD }} {{ country.currency_name}} </td>
+            <td>{{ country.bread_price }} </td>
+            <td>{{ country.meal_price  }} </td>
+            <td>{{ country.apt_price   }} </td>
+            <td>{{ country.apt_price   }} </td>
+            <td> <a href={{ countries[country] }}> Invest </a> </td>
+        </tr>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
 
 </table>
 

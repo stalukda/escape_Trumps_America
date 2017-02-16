@@ -27,11 +27,13 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
+    home_country = db.Column(db.String(15), nullable=True)
 
     def __repr__(self):
-        return "<User user_id=%s fname=%s lname=%s>" % (self.user_id,
+        return "<User user_id=%s fname=%s lname=%s home_country=%s>" % (self.user_id,
                                                self.fname,
-                                               self.lname)
+                                               self.lname, 
+                                               self.home_country)
 
 class Country(db.Model):
     """Countries to display on the website."""

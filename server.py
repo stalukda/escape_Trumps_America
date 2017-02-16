@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Country
+from model import connect_to_db, db, User, Country, User_Country
 
 
 app = Flask(__name__)
@@ -9,8 +9,7 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
 
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
+# Raises error if undefined variable in Jinja2
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -32,7 +31,6 @@ def register_form():
 def register_process():
     """Process registration."""
 
-    # Get form variables
     fname = request.form['fname']
     lname = request.form['lname']
     email = request.form["email"]
@@ -64,7 +62,6 @@ def login_form():
 def login_process():
     """Process login."""
 
-    # Get form variables
     email = request.form["email"]
     password = request.form["password"]
 
@@ -139,6 +136,14 @@ def choose_countries():
 def compare_countries():
     """Compare the 3-5 chosen countries"""
 
+    user_id = session.get("user_id")
+    
+    if user_id:
+        user = User.query.filter_by(user_id=user_id).first()
+    else:
+        pass 
+
+    #find out what country they are from
     nations = request.args.getlist('countries')
     country_info = []
 
@@ -154,9 +159,7 @@ def compare_countries():
         else: 
             pass 
 
-
-
-    return render_template("country_display.html", country_info=country_info)
+    return render_template("country_display.html", country_info=country_info, user=user)
    
 
 
