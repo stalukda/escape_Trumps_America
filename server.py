@@ -37,11 +37,12 @@ def register_process():
     password = request.form["password"]
     age = int(request.form["age"])
     zipcode = request.form["zipcode"]
+    home_country = request.form["home_country"]
 
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        new_user = User(fname=fname, lname=lname, email=email, password=password, age=age, zipcode=zipcode)
+        new_user = User(fname=fname, lname=lname, email=email, password=password, age=age, zipcode=zipcode, home_country=home_country)
         db.session.add(new_user)
         db.session.commit()
         flash("User %s added." % email)
@@ -143,7 +144,8 @@ def compare_countries():
     else:
         pass 
 
-    #find out what country they are from
+
+
     nations = request.args.getlist('countries')
     country_info = []
 

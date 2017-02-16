@@ -15,6 +15,10 @@
 
     <tr>
         <td> {{ user.home_country }} </td>
+        <td> {{ user.users_countries[0].country.currency_per_USD }} {{ user.users_countries[0].country.currency_name}} </td>
+        <td> {{ user.users_countries[0].country.bread_price }} </td>
+        <td> {{ user.users_countries[0].country.meal_price }} </td>
+        <td> {{ user.users_countries[0].country.apt_price }} </td>
     </tr>
  
 
@@ -25,7 +29,6 @@
             <td>{{ country.currency_per_USD }} {{ country.currency_name}} </td>
             <td>{{ country.bread_price }} </td>
             <td>{{ country.meal_price  }} </td>
-            <td>{{ country.apt_price   }} </td>
             <td>{{ country.apt_price   }} </td>
             <td> <a href={{ countries[country] }}> Invest </a> </td>
         </tr>
