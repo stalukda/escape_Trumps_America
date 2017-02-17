@@ -51,6 +51,7 @@ class Country(db.Model):
     bread_price = db.Column(db.Float, nullable=True)
     meal_price = db.Column(db.Float, nullable=True)
     apt_price = db.Column(db.Float, nullable=True)
+    col_index = db.Column(db.Float, nullable=True)
 
     def __repr__(self):
 
