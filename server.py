@@ -27,10 +27,6 @@ def register_form():
     #query for country + code 
     countries = Country.query.order_by('country_name').all()
 
-    # #in for loop, set those values in a dictionary 
-    # country_with_urls = {}
-    #         country_with_urls[country] = url + country.country_code
-
     return render_template("register_form.html", countries=countries)
 
 
@@ -127,7 +123,15 @@ def country_search_button():
 def display_map():
     """Render cost of living map"""
 
-    nations = Country.query.order_by('country_name').all()
+    countries = Country.query.order_by('country_name').all()
+    nations = []
+
+    for country in countries:
+        if country.bread_price != 'None': 
+            nations.append(country)
+        else: 
+            pass 
+
     return render_template("cost_of_living_map.html", nations=nations)
 
 
@@ -176,8 +180,6 @@ def compare_countries():
 
 
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the
-    # point that we invoke the DebugToolbarExtension
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
@@ -189,53 +191,3 @@ if __name__ == "__main__":
     
     app.run(port=5000, host='0.0.0.0')
 
-
-
-# @app.route("/movies/<int:movie_id>", methods=['GET'])
-# def movie_detail(movie_id):
-#     """Show info about movie.
-
-#     If a user is logged in, let them add/edit a rating.
-#     """
-
-#     movie = Movie.query.get(movie_id)
-
-#     user_id = session.get("user_id")
-
-#     if user_id:
-#         user_rating = Rating.query.filter_by(
-#             movie_id=movie_id, user_id=user_id).first()
-
-#     else:
-#         user_rating = None
-
-#     return render_template("movie.html",
-#                            movie=movie,
-#                            user_rating=user_rating)
-
-
-# @app.route("/movies/<int:movie_id>", methods=['POST'])
-# def movie_detail_process(movie_id):
-#     """Add/edit a rating."""
-
-#     # Get form variables
-#     score = int(request.form["score"])
-
-#     user_id = session.get("user_id")
-#     if not user_id:
-#         raise Exception("No user logged in.")
-
-#     rating = Rating.query.filter_by(user_id=user_id, movie_id=movie_id).first()
-
-#     if rating:
-#         rating.score = score
-#         flash("Rating updated.")
-
-#     else:
-#         rating = Rating(user_id=user_id, movie_id=movie_id, score=score)
-#         flash("Rating added.")
-#         db.session.add(rating)
-
-#     db.session.commit()
-
-#     return redirect("/movies/%s" % movie_id)
