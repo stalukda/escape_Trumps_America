@@ -118,14 +118,17 @@ def user_detail(user_id):
 def country_search_button():
     """Chosen button for search"""
 
-    return render_template("search_button.html")
+    nations = Country.query.order_by('country_name').all()
+
+    return render_template("search_button.html", nations=nations)
 
 
 @app.route("/cost_of_living_map")
 def display_map():
     """Render cost of living map"""
 
-    return render_template("cost_of_living_map.html")
+    nations = Country.query.order_by('country_name').all()
+    return render_template("cost_of_living_map.html", nations=nations)
 
 
 @app.route("/top_ten_list")
@@ -138,7 +141,8 @@ def top_ten_list():
 def choose_countries():
     """Choose 3-5 countries to compare based on map & top 10 list"""
 
-    return render_template("pick_countries.html")
+    nations = Country.query.order_by('country_name').all()
+    return render_template("pick_countries.html", nations=nations)
 
 
 @app.route("/compare_countries", methods=["GET"])
