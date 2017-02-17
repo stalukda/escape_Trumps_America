@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, User, Country, User_Country
+from model import connect_to_db, db, User, Country, Country_Search
 
 
 app = Flask(__name__)
@@ -24,7 +24,14 @@ def index():
 def register_form():
     """Show form for user signup."""
 
-    return render_template("register_form.html")
+    #query for country + code 
+    countries = Country.query.order_by('country_name').all()
+
+    # #in for loop, set those values in a dictionary 
+    # country_with_urls = {}
+    #         country_with_urls[country] = url + country.country_code
+
+    return render_template("register_form.html", countries=countries)
 
 
 @app.route('/register', methods=['POST'])
@@ -37,12 +44,13 @@ def register_process():
     password = request.form["password"]
     age = int(request.form["age"])
     zipcode = request.form["zipcode"]
-    home_country = request.form["home_country"]
+    home_country = request.form["country_code"]
 
     user = User.query.filter_by(email=email).first()
 
     if not user:
         new_user = User(fname=fname, lname=lname, email=email, password=password, age=age, zipcode=zipcode, home_country=home_country)
+        # new_country_user = Country_User(new_user)
         db.session.add(new_user)
         db.session.commit()
         flash("User %s added." % email)
@@ -143,8 +151,6 @@ def compare_countries():
         user = User.query.filter_by(user_id=user_id).first()
     else:
         pass 
-
-
 
     nations = request.args.getlist('countries')
     country_info = []

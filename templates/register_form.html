@@ -24,9 +24,14 @@
     <input type="text" name="zipcode"> </br> </br> 
 
     Country: 
-    <input type="text" name="home_country"> </br> </br> 
+    <select name="country_code">
+        {% for country in countries %}
+            <option value="{{ country.country_code }}" SELECTED>{{ country.country_name }}</option>
+        {% endfor %}
+    </select> </br> </br> 
 
     <input type="submit" name="submit_button">
+
 </form>
 
 {% endblock %}

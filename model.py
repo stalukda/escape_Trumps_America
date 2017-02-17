@@ -27,7 +27,9 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
-    home_country = db.Column(db.String(15), nullable=True)
+
+    ## model on one to many relationship for backref (printings & books)
+    home_country = db.Column(db.String(15), db.ForeignKey('countries.country_code'), nullable=True)
 
     def __repr__(self):
         return "<User user_id=%s fname=%s lname=%s home_country=%s>" % (self.user_id,
@@ -56,10 +58,12 @@ class Country(db.Model):
                                                                 self.currency_name)
 
 
-class User_Country(db.Model):
+## Potentially country_search in the future (to store the multiple countries that a user would be interested in saving)
+
+class Country_Search(db.Model):
     """Countries to display on the website."""
 
-    __tablename__ = "users_countries"
+    __tablename__ = "country_searches"
 
     uc_id = db.Column(db.Integer,
                     autoincrement=True,
@@ -67,12 +71,12 @@ class User_Country(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     country_code = db.Column(db.String(2), db.ForeignKey('countries.country_code'), nullable=True)
 
-    user = db.relationship("User", backref=db.backref("users_countries", order_by=uc_id))
-    country = db.relationship("Country", backref=db.backref("users_countries", order_by=uc_id))
+    user = db.relationship("User", backref=db.backref("country_searches", order_by=uc_id))
+    country = db.relationship("Country", backref=db.backref("country_searches", order_by=uc_id))
 
     def __repr__(self):
 
-        return "<User_Country uc_id=%s>" % (self.uc_id)
+        return "<Country_Search uc_id=%s>" % (self.uc_id)
 
 
 
