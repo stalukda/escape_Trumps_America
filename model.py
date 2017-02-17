@@ -27,9 +27,9 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
-
-    ## model on one to many relationship for backref (printings & books)
     home_country = db.Column(db.String(15), db.ForeignKey('countries.country_code'), nullable=True)
+
+    country = db.relationship('Country', backref='users')
 
     def __repr__(self):
         return "<User user_id=%s fname=%s lname=%s home_country=%s>" % (self.user_id,
@@ -47,10 +47,10 @@ class Country(db.Model):
     country_name = db.Column(db.String(100), nullable=True)
     currency_code = db.Column(db.String(3), nullable=True)
     currency_name = db.Column(db.String(64), nullable=True)
-    currency_per_USD = db.Column(db.Integer, nullable=True)
-    bread_price = db.Column(db.Integer, nullable=True)
-    meal_price = db.Column(db.Integer, nullable=True)
-    apt_price = db.Column(db.Integer, nullable=True)
+    currency_per_USD = db.Column(db.Float, nullable=True)
+    bread_price = db.Column(db.Float, nullable=True)
+    meal_price = db.Column(db.Float, nullable=True)
+    apt_price = db.Column(db.Float, nullable=True)
 
     def __repr__(self):
 
@@ -58,10 +58,8 @@ class Country(db.Model):
                                                                 self.currency_name)
 
 
-## Potentially country_search in the future (to store the multiple countries that a user would be interested in saving)
-
 class Country_Search(db.Model):
-    """Countries to display on the website."""
+    """Countries that the user would like to save as searches in their account."""
 
     __tablename__ = "country_searches"
 

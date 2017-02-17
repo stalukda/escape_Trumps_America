@@ -50,7 +50,7 @@ def register_process():
 
     if not user:
         new_user = User(fname=fname, lname=lname, email=email, password=password, age=age, zipcode=zipcode, home_country=home_country)
-        # new_country_user = Country_User(new_user)
+        # new_country_user = Country_Search(new_user)
         db.session.add(new_user)
         db.session.commit()
         flash("User %s added." % email)

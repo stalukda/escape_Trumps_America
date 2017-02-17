@@ -6,15 +6,19 @@
 <table>
     <tr>
         <th>Country </th>
-        <th>Worth per USD </th>
-        <th>Average bread price </th>
-        <th>Average meal price </th>
-        <th>Average apartment price per month </th>
-        <th>Invest in local entrepreneur</th>
+        <th>--Worth per USD--</th>
+        <th>--Average bread price-- </th>
+        <th>--Average meal price-- </th>
+        <th>--Average apartment price per month-- </th>
+        <th>--Invest in local entrepreneur--</th>
     </tr>
 
     <tr>
         <td> {{ user.home_country }} </td>
+        <td> {{ user.country.currency_per_USD }} {{ user.country.currency_name}} </td>        
+        <td> {{ user.country.bread_price }} </td>
+        <td> {{ user.country.meal_price }} </td>
+        <td> {{ user.country.apt_price }} </td>
     </tr>
  
 

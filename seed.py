@@ -138,11 +138,10 @@ if __name__ == "__main__":
     set_val_user_id()
 
    #seed countries table 
-    # load_countries()
     # load_currency()
     # load_1_usd_to_currency()
     # load_cost_of_living()
 
-   #can also seed users_countries table if desired
+   #can also seed country_searches table if desired
 
    
