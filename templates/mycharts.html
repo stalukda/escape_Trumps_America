@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Melon Sales{% endblock %}
+
+
+{% block content %}
+
+
+  <h2> Country Picks Dashboard </h2>
+
+  <div class="country-chart">
+    <canvas id="barChart"></canvas>
+    <div id="barLegend" class="chart-legend"></div>
+  </div>
+
+  <script>
+    var options = {
+      responsive: true
+    };
+
+    var ctx_bar = $("#barChart").get(0).getContext("2d");
+
+    $.get("/country_picks.json", function (data) {
+      var myBarChart = new Chart(ctx_bar, {
+                                  type: 'bar',
+                                  data: data,
+                                  options: options
+    });
+
+      $("#barLegend").html(myBarChart.generateLegend());
+    });
+
+  </script>
+
+{% endblock %}
