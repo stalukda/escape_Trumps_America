@@ -172,23 +172,25 @@ def compare_countries():
             country_with_urls = {}
             country_with_urls[country] = url + country.country_code
             country_info.append(country_with_urls)
-        else: 
-            pass 
 
+
+    #TABLE  
     return render_template("country_display.html", country_info=country_info, user=user)
-    # return render_template("mycharts.html")
 
 
 @app.route('/country_picks.json')
 def country_picks_data():
     """Return data about Country picks."""
 
-    data_dict = {
-                "labels": [
-                    "Bangaldesh",
-                    "Cambodia",
-                    "Brazil"
-                ],
+    # print "ENTERING COUNTRY PICKS"
+
+    # request.args returns a multidict with countryList[] as keys
+    country_list = request.args.getlist("countryList[]")
+
+    print "*"*20, country_list
+
+    data = {
+                "labels": country_list,
                 "datasets": [
                     {
                         "data": [100, 150, 200],
@@ -204,8 +206,8 @@ def country_picks_data():
                         ]
                     }]
             }
-
-    return jsonify(data_dict)
+ 
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.debug = True

@@ -167,9 +167,8 @@ if __name__ == "__main__":
     # load_currency()
     # load_1_usd_to_currency()
     # load_cost_of_living_index()
-    load_cost_of_living()
-    # print load_numbeo_data(col_url, '&currency=USD')
-    # print load_numbeo_data(col_index_url)
+    load_numbeo_data(col_url, '&currency=USD')
+    load_numbeo_data(col_index_url)
 
    #can also seed country_searches table if desired
 

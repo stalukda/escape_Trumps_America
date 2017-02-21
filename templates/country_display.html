@@ -1,41 +1,86 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
 <h2>Countries: </h2>
 
-<table>
-    <tr>
-        <th>Country </th>
-        <th>--Worth per USD--</th>
-        <th>--Average bread price-- </th>
-        <th>--Average meal price-- </th>
-        <th>--Average apartment price per month-- </th>
-        <th>--Invest in local entrepreneur--</th>
-    </tr>
+   <div id="country-data">
 
-    <tr>
-        <td> {{ user.home_country }} </td>
-        <td> {{ user.country.currency_per_USD }} {{ user.country.currency_name}} </td>        
-        <td> {{ user.country.bread_price }} </td>
-        <td> {{ user.country.meal_price }} </td>
-        <td> {{ user.country.apt_price }} </td>
-    </tr>
- 
-
-    {% for countries in country_info %}
-        {% for country in countries %}
+    <table style="width:100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td>{{ country.country_name}} </td>
-            <td>{{ country.currency_per_USD }} {{ country.currency_name}} </td>
-            <td>{{ country.bread_price }} </td>
-            <td>{{ country.meal_price  }} </td>
-            <td>{{ country.apt_price   }} </td>
-            <td> <a href={{ countries[country] }}> Invest </a> </td>
+            <th>Country </th>
+            <th>Worth per USD</th>
+            <th>Average bread price</th>
+            <th>Average meal price</th>
+            <th>Average apartment price per month</th>
+            <th>Invest in local entrepreneur</th>
         </tr>
-        {% endfor %}
-    {% endfor %}
 
-</table>
+        <tr>
+            <td> {{ user.home_country }} </td>
+            <td> {{ user.country.currency_per_USD }} {{ user.country.currency_name}} </td>        
+            <td> ${{ user.country.bread_price }} </td>
+            <td> ${{ user.country.meal_price }} </td>
+            <td> ${{ user.country.apt_price }} </td>
+        </tr>
+     
+
+        {% for countries in country_info %}
+            {% for country in countries %}
+            <tr class='allCountries' data-country-id="{{ country.country_code }}">
+                <td>{{ country.country_name}} </td>
+                <td>{{ country.currency_per_USD }} {{ country.currency_name}}s </td>
+                <td>${{ country.bread_price }} </td>
+                <td>${{ country.meal_price  }} </td>
+                <td>${{ country.apt_price   }} </td>
+                <td> <a href={{ countries[country] }}> Invest </a> </td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+
+    </table>
+   </div>
+
+  <div class="country-chart">
+    <canvas id="barChart"></canvas>
+    <div id="barLegend" class="chart-legend"></div>
+  </div>
+
+<script>
+
+    // This code below creates a JS array (good) but of the whole row, inlcuding TRs...table rows (bad)
+    // var allCountries = [];
+    // allCountries.push($('.allCountries').get());
+
+    //This code is much better.. 
+    //Creates a jquery array by mapping to javascript array bc Ajax does not recognize JQuery arrays 
+    //Alternative implementation: session
+    var countriesArray = $.map($('.allCountries'), function(item) {
+         return $(item).data('country-id')
+    });
+
+    var options = {
+      responsive: true
+    };
+
+    var ctx_bar = $("#barChart").get(0).getContext("2d");
+
+    console.log('countries array', countriesArray);
+
+    $.get("/country_picks.json", {countryList: countriesArray}, function (data) {
+
+      console.log("data", data);
+
+    var myBarChart = new Chart(ctx_bar, {
+                                  type: 'bar',
+                                  data: data,
+                                  options: options
+    });
+
+      $("#barLegend").html(myBarChart.generateLegend());
+    });
+
+  </script>
 
 {% endblock %}
 
