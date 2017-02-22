@@ -9,33 +9,49 @@
     <body>
 
        <h2> Cost of Living Index Throughout the World </h1>
+
+       <div style="width:100%;" id="header_gmaps">
+        <form>
+             Index:  <select onchange="this.form.submit();"  name="indexToShow" id="indexToShow">
+            <option value="getCpiIndex" selected="selected" >Cost of Living Index</option>
+            <option value="getBreadPrice"> Average Bread Price</option>
+            <option value="getMealPrice"> Average Restaurant Meal Price </option>
+            </select>
+
+        </form>
+
        <div id="chart_div" class="country_gmaps_rankings"></div>
-
        <script type='text/javascript'>
+       
 
-       google.load('visualization', '1', {'packages': ['geochart']});
-       google.setOnLoadCallback(drawRegionsMap);
+        google.load('visualization', '1', {'packages': ['geochart']});
+        google.setOnLoadCallback(updateMapData);
+        
+          function drawMap(results) {
 
-        function drawRegionsMap() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Country');
-            data.addColumn('number', 'Cost of Living Index(NYC=100)');
-            data.addRows([
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Country');
+              data.addColumn('number', 'Bread price');
+              data.addRows(results.items);
 
-                {% for nation in nations %}
-                    {% if nation.col_index %}
-                        [ '{{ nation.country_name }}', {{ nation.col_index }}],
-                    {% endif %}
-                {% endfor %}
-            ]);
+              var options = {
+              colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
 
-        var options = {
-          colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}
-        };
+              var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+              
+              chart.draw(data, options);
+          };
 
-        var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-        };
+
+          function updateMapData(){
+
+            // see which option is selected in #indexToShow
+            // decide which route based on that option
+
+              $.get("/getBreadPrice.json", drawMap)
+            }
+
+          $('#indexToShow').on('change', updateMapData);
 
         </script>
     </body>

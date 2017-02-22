@@ -6,7 +6,7 @@
 
    <div id="country-data">
 
-    <table style="width:100%" cellpadding="0" cellspacing="0" border="0">
+    <table style="width:100%">
         <tr>
             <th>Country </th>
             <th>Worth per USD</th>
@@ -17,11 +17,12 @@
         </tr>
 
         <tr>
-            <td> {{ user.home_country }} </td>
-            <td> {{ user.country.currency_per_USD }} {{ user.country.currency_name}} </td>        
-            <td> ${{ user.country.bread_price }} </td>
-            <td> ${{ user.country.meal_price }} </td>
-            <td> ${{ user.country.apt_price }} </td>
+            <td> {{ user.country.country_name }} </td>
+            <td>      {{ "${:.2f}".format(user.country.currency_per_USD) if user.country.currency_per_USD else "None" }} in {{ user.country.currency_name}}s </td>  
+            <td> {{ "${:.2f}".format(user.country.bread_price) if user.country.bread_price else "None" }} </td>
+            <td> {{ "${:.2f}".format(user.country.meal_price) if user.country.meal_price else "None" }} </td>
+            <td> {{ "${:.2f}".format(user.country.apt_price) if user.country.apt_price else "None" }} </td>
+
         </tr>
      
 
@@ -29,14 +30,18 @@
             {% for country in countries %}
             <tr class='allCountries' data-country-id="{{ country.country_code }}">
                 <td>{{ country.country_name}} </td>
-                <td>{{ country.currency_per_USD }} {{ country.currency_name}}s </td>
-                <td>${{ country.bread_price }} </td>
-                <td>${{ country.meal_price  }} </td>
-                <td>${{ country.apt_price   }} </td>
+                <td>{{ "${:.2f}".format(country.currency_per_USD) if country.currency_per_USD else "None" }}  in {{ country.currency_name}}s </td>
+
+                
+                <td>{{ "${:.2f}".format(country.bread_price) if country.bread_price else "None" }} </td>
+                <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+                <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
                 <td> <a href={{ countries[country] }}> Invest </a> </td>
             </tr>
             {% endfor %}
         {% endfor %}
+
+
 
     </table>
    </div>

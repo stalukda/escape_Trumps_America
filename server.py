@@ -157,8 +157,6 @@ def compare_countries():
     
     if user_id:
         user = User.query.filter_by(user_id=user_id).first()
-    else:
-        pass 
 
     nations = request.args.getlist('countries')
     country_info = []
@@ -178,6 +176,24 @@ def compare_countries():
     return render_template("country_display.html", country_info=country_info, user=user)
 
 
+@app.route("/getBreadPrice.json", methods=["GET"])
+def getBreadPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.bread_price:
+            country_list.append([nation.country_name, nation.bread_price])
+
+    results = {'items': country_list}
+
+    print "*" * 20 
+    print results
+
+    return jsonify(results)
+
+
 @app.route('/country_picks.json')
 def country_picks_data():
     """Return data about Country picks."""
@@ -185,24 +201,43 @@ def country_picks_data():
     # print "ENTERING COUNTRY PICKS"
 
     # request.args returns a multidict with countryList[] as keys
-    country_list = request.args.getlist("countryList[]")
 
-    print "*"*20, country_list
+    user_id = session.get("user_id")
+    
+    if user_id:
+        user = User.query.filter_by(user_id=user_id).first()
+
+    country_list = request.args.getlist("countryList[]")
+    
+    countries = [user.country.country_name]
+    info = [user.country.meal_price]
+
+    for nation in country_list:
+        country = Country.query.filter_by(country_code=nation).first()
+        countries.append(country.country_name)
+        info.append(country.meal_price)
 
     data = {
-                "labels": country_list,
+                "labels": countries,
                 "datasets": [
                     {
-                        "data": [100, 150, 200],
+                        "data": info,
+                        
                         "backgroundColor": [
                             "#FF6384",
                             "#36A2EB",
-                            "#FFCE56"
+                            "#FFCE56",
+                            "#FFFFEE",
+                            "#98fb98" 
+
                         ],
+
                         "hoverBackgroundColor": [
                             "#FF6384",
                             "#36A2EB",
-                            "#FFCE56"
+                            "#FFCE56",
+                            "#FFFFEE",
+                            "#98fb98"
                         ]
                     }]
             }
