@@ -194,6 +194,61 @@ def getBreadPrice():
     return jsonify(results)
 
 
+@app.route("/getCpiIndex.json", methods=["GET"])
+def getCpiIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.col_index:
+            country_list.append([nation.country_name, nation.col_index])
+
+    results = {'items': country_list}
+
+    print "*" * 20 
+    print results
+
+    return jsonify(results)
+
+
+@app.route("/getMealPrice.json", methods=["GET"])
+def getMealPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.meal_price:
+            country_list.append([nation.country_name, nation.meal_price])
+
+    results = {'items': country_list}
+
+    print "*" * 20 
+    print results
+
+    return jsonify(results)
+
+
+@app.route("/below5.json", methods=["GET"])
+def below5():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.meal_price < 5:
+            country_list.append([nation.country_name, nation.meal_price])
+
+    results = {'items': country_list}
+
+    print "*" * 20 
+    print results
+
+    return jsonify(results)
+
+
+
 @app.route('/country_picks.json')
 def country_picks_data():
     """Return data about Country picks."""

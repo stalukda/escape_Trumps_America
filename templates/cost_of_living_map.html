@@ -12,17 +12,17 @@
 
        <div style="width:100%;" id="header_gmaps">
         <form>
-             Index:  <select onchange="this.form.submit();"  name="indexToShow" id="indexToShow">
-            <option value="getCpiIndex" selected="selected" >Cost of Living Index</option>
-            <option value="getBreadPrice"> Average Bread Price</option>
-            <option value="getMealPrice"> Average Restaurant Meal Price </option>
+             Index:  <select onchange="url= this.value"  name="indexToShow" id="indexToShow">
+            <option value="/getCpiIndex" selected="selected" >Cost of Living Index</option>
+            <option value="/getBreadPrice"> Average Bread Price</option>
+            <option value="/getMealPrice"> Average Restaurant Meal Price </option>
             </select>
 
         </form>
 
        <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
-       
+
 
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
@@ -44,9 +44,6 @@
 
 
           function updateMapData(){
-
-            // see which option is selected in #indexToShow
-            // decide which route based on that option
 
               $.get("/getBreadPrice.json", drawMap)
             }
