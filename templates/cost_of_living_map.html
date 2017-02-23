@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
+  <head>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>jQuery UI Slider - Range with fixed minimum</title>
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -11,12 +11,25 @@
 
       <script type='text/javascript' src='https://www.google.com/jsapi'></script>
       <title> Cost of Living Index 2017</title>
-    </head>
 
-    <body>
+      <style type="text/css">
+        #slider {
+          margin: 10px;
+        }
+        .ui-slider-horizontal {
+          height: 8px;
+          width: 300px;
+        }
+        .ui-slider .ui-slider-handle {
+        height: 15px;
+        width: 5px;
+        padding-left: 5px;
+        }
+      </style>
+  </head>
 
-       <h2> Cost of Living Index Throughout the World </h1>
-
+  <body>
+    <h2> Cost of Living Index Throughout the World </h1>
        <div style="width:100%;" id="header_gmaps" >
         <form>
              General filters:  <select id="generalFilter" class="mapFilter">
@@ -27,32 +40,13 @@
             </select>
         </form>
 
-        <script>
-        $( function() {
-          $( "#slider-range-min" ).slider({
-            range: "min",
-            value: 37,
-            min: 1,
-            max: 700,
-            slide: function( event, ui ) {
-              $( "#amount" ).val( "$" + ui.value );
-            }
-          });
-          $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
-        } );
-        </script>
+      <p>
+        <label for="amount">Index filter:</label>
+        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+      </p>
  
-        <p>
-        
-  <label for="amount">Maximum price:</label>
-  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-</p>
- 
-<div id="slider-range-min"></div>
- 
-
-
-       <div id="chart_div" class="country_gmaps_rankings"></div>
+      <div id="slider-range-min"></div>
+      <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
@@ -71,6 +65,21 @@
               var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
               
               chart.draw(data, options);
+               
+              $( "#slider-range-min" ).slider({
+              range: "min",
+              value: 37,
+              min: results.min_val,
+              max: 700,
+              slide: function( event, ui ) {
+                $( "#amount" ).val( ui.value );
+                     // $( "#amount" ).val( "$" + ui.value );
+                }
+              });
+              $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+     // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+
+
           };
 
 
@@ -84,8 +93,9 @@
           $('#generalFilter').on('change', updateMapData);
 
         </script>
-    </body>
-</html>
 
+
+   </body>
+</html>
 
 

@@ -2,7 +2,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Country, Country_Search
-
+from sqlalchemy import desc, func
 
 app = Flask(__name__)
 
@@ -198,13 +198,21 @@ def getBreadPrice():
 def getCpiIndex():
 
     nations = Country.query.order_by('country_name').all()
+    min_val_country = Country.query.order_by('col_index').first()
+    min_val = min_val_country.col_index
+
+    #fix max 
+    # max_val_country = Country.query.order_by(desc('col_index')).first()
+        # max_val = max_val_country.col_index
+
     country_list = []
 
     for nation in nations: 
         if nation.col_index:
             country_list.append([nation.country_name, nation.col_index])
 
-    results = {'items': country_list}
+
+    results = {'items': country_list, 'min_val': min_val}
 
     print "*" * 20 
     print results
