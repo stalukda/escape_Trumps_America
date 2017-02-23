@@ -68,15 +68,15 @@
                
               $( "#slider-range-min" ).slider({
               range: "min",
-              value: 37,
+              value: results.max_val/2,
               min: results.min_val,
-              max: 700,
+              max: results.max_val,
               slide: function( event, ui ) {
                 $( "#amount" ).val( ui.value );
                      // $( "#amount" ).val( "$" + ui.value );
                 }
               });
-              $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+              $( "#amount" ).val($( "#slider-range-min" ).slider( "value" ) );
      // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
 
 
