@@ -248,6 +248,24 @@ def below5():
     return jsonify(results)
 
 
+@app.route("/filterColIndex.json", methods=["GET"])
+def filterColIndex():
+
+
+    filter_factor = request.args.get('filter')
+    filter_factor = float(filter_factor)
+
+    nations = Country.query.order_by('country_name').all()
+
+    country_list = []
+
+    for nation in nations: 
+        if nation.col_index < filter_factor:
+            country_list.append([nation.country_name, nation.col_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
 
 @app.route('/country_picks.json')
 def country_picks_data():

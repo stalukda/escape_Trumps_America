@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>jQuery UI Slider - Range with fixed minimum</title>
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-      <link rel="stylesheet" href="/resources/demos/style.css">
+      <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -41,11 +41,12 @@
         </form>
 
       <p>
-        <label for="amount">Index filter:</label>
+        <label for="amount">Filter by max:</label>
         <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
       </p>
  
       <div id="slider-range-min"></div>
+      
       <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
         google.load('visualization', '1', {'packages': ['geochart']});
@@ -77,20 +78,32 @@
                 }
               });
               $( "#amount" ).val($( "#slider-range-min" ).slider( "value" ) );
-     // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
 
+     // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
 
           };
 
-
           function updateMapData(){
              var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
-
-
+             //add in the data to send to the server($( "#amount" ).val() in this Ajax call for querying purposes)
+        
               $.get(currentOptionRoute, drawMap);
-            }
+            };
 
           $('#generalFilter').on('change', updateMapData);
+
+
+
+          function filterMap(){
+
+             var filter = $("#amount" ).val()
+
+             filterInputs = { 'filter' : filter };
+             console.log(filterInputs)
+        
+            $.get("/filterColIndex.json", filterInputs, drawMap); };
+
+          $( "#slider-range-min" ).on('slidestop', filterMap);
 
         </script>
 
