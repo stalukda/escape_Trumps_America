@@ -2,7 +2,14 @@
 <html>
 
     <head>
-       <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>jQuery UI Slider - Range with fixed minimum</title>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="/resources/demos/style.css">
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+      <script type='text/javascript' src='https://www.google.com/jsapi'></script>
       <title> Cost of Living Index 2017</title>
     </head>
 
@@ -10,28 +17,52 @@
 
        <h2> Cost of Living Index Throughout the World </h1>
 
-       <div style="width:100%;" id="header_gmaps">
+       <div style="width:100%;" id="header_gmaps" >
         <form>
-             Index:  <select onchange="url= this.value"  name="indexToShow" id="indexToShow">
-            <option value="/getCpiIndex" selected="selected" >Cost of Living Index</option>
-            <option value="/getBreadPrice"> Average Bread Price</option>
-            <option value="/getMealPrice"> Average Restaurant Meal Price </option>
+             General filters:  <select id="generalFilter" class="mapFilter">
+            <option value="/getCpiIndex.json" selected="selected" >Cost of Living Index</option>
+            <option value="/getBreadPrice.json"  > Average Bread Price</option>
+            <option value="/getMealPrice.json"> Average Restaurant Meal Price </option>
+            <option value="/below5.json" > Meals below $5 </option>
             </select>
-
         </form>
+
+        <script>
+        $( function() {
+          $( "#slider-range-min" ).slider({
+            range: "min",
+            value: 37,
+            min: 1,
+            max: 700,
+            slide: function( event, ui ) {
+              $( "#amount" ).val( "$" + ui.value );
+            }
+          });
+          $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+        } );
+        </script>
+ 
+        <p>
+        
+  <label for="amount">Maximum price:</label>
+  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+ 
+<div id="slider-range-min"></div>
+ 
+
 
        <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
-
-
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
-        
+       
+
           function drawMap(results) {
 
               var data = new google.visualization.DataTable();
               data.addColumn('string', 'Country');
-              data.addColumn('number', 'Bread price');
+              data.addColumn('number', 'Option');
               data.addRows(results.items);
 
               var options = {
@@ -44,11 +75,13 @@
 
 
           function updateMapData(){
+             var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
 
-              $.get("/getBreadPrice.json", drawMap)
+
+              $.get(currentOptionRoute, drawMap);
             }
 
-          $('#indexToShow').on('change', updateMapData);
+          $('#generalFilter').on('change', updateMapData);
 
         </script>
     </body>
