@@ -176,25 +176,8 @@ def compare_countries():
     return render_template("country_display.html", country_info=country_info, user=user)
 
 
-@app.route("/getBreadPrice.json", methods=["GET"])
-def getBreadPrice():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    for nation in nations: 
-        if nation.bread_price:
-            country_list.append([nation.country_name, nation.bread_price])
-
-    results = {'items': country_list}
-
-    print "*" * 20 
-    print results
-
-    return jsonify(results)
-
-
-@app.route("/getCpiIndex.json", methods=["GET"])
+@app.route("/col_index.json", methods=["GET"])
 def getCpiIndex():
 
     nations = Country.query.order_by('country_name').all()
@@ -215,7 +198,26 @@ def getCpiIndex():
     return jsonify(results)
 
 
-@app.route("/getMealPrice.json", methods=["GET"])
+@app.route("/bread_price.json", methods=["GET"])
+def getBreadPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.bread_price:
+            country_list.append([nation.country_name, nation.bread_price])
+
+    results = {'items': country_list}
+
+    print "*" * 20 
+    print results
+
+    return jsonify(results)
+
+
+
+@app.route("/meal_price.json", methods=["GET"])
 def getMealPrice():
 
     nations = Country.query.order_by('country_name').all()
@@ -230,38 +232,56 @@ def getMealPrice():
     return jsonify(results)
 
 
-@app.route("/below5.json", methods=["GET"])
-def below5():
+@app.route("/col_indexFilter.json", methods=["GET"])
+def filterColIndex():
 
     nations = Country.query.order_by('country_name').all()
     country_list = []
 
-    for nation in nations: 
-        if nation.meal_price < 5:
-            country_list.append([nation.country_name, nation.meal_price])
+    max_val = request.args.get('filterMax')
+    max_val = int(max_val)
+
+    for nation in nations:
+        if nation.col_index < max_val:
+            country_list.append([nation.country_name, nation.col_index])
 
     results = {'items': country_list}
-
-    print "*" * 20 
-    print results
 
     return jsonify(results)
 
 
-@app.route("/filterColIndex.json", methods=["GET"])
-def filterColIndex():
 
-
-    filter_factor = request.args.get('filter')
-    filter_factor = float(filter_factor)
+@app.route("/bread_priceFilter.json", methods=["GET"])
+def filterBreadPrice():
 
     nations = Country.query.order_by('country_name').all()
-
     country_list = []
 
-    for nation in nations: 
-        if nation.col_index < filter_factor:
-            country_list.append([nation.country_name, nation.col_index])
+    max_val = request.args.get('filterMax')
+    max_val = int(max_val)
+
+    for nation in nations:
+        if nation.bread_price < max_val:
+            country_list.append([nation.country_name, nation.bread_price])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+
+@app.route("/meal_priceFilter.json", methods=["GET"])
+def filterMealPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    max_val = request.args.get('filterMax')
+    max_val = int(max_val)
+
+    for nation in nations:
+        if nation.meal_price < max_val:
+            country_list.append([nation.country_name, nation.meal_price])
 
     results = {'items': country_list}
 

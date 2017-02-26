@@ -12,20 +12,6 @@
       <script type='text/javascript' src='https://www.google.com/jsapi'></script>
       <title> Cost of Living Index 2017</title>
 
-      <style type="text/css">
-        #slider {
-          margin: 10px;
-        }
-        .ui-slider-horizontal {
-          height: 8px;
-          width: 300px;
-        }
-        .ui-slider .ui-slider-handle {
-        height: 15px;
-        width: 5px;
-        padding-left: 5px;
-        }
-      </style>
   </head>
 
   <body>
@@ -33,82 +19,73 @@
        <div style="width:100%;" id="header_gmaps" >
         <form>
              General filters:  <select id="generalFilter" class="mapFilter">
-            <option value="/getCpiIndex.json" selected="selected" >Cost of Living Index</option>
-            <option value="/getBreadPrice.json"  > Average Bread Price</option>
-            <option value="/getMealPrice.json"> Average Restaurant Meal Price </option>
-            <option value="/below5.json" > Meals below $5 </option>
+            <option value="col_index" selected="selected" >Cost of Living Index</option>           
+            <option value="bread_price"> Average Bread Price</option>
+            <option value="meal_price"> Average Restaurant Meal Price </option>
             </select>
         </form>
 
-      <p>
-        <label for="amount">Filter by max:</label>
-        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-      </p>
- 
-      <div id="slider-range-min"></div>
+        <div id="customFilterForm">
+        <form id = "customFilter">
+            Filter by: <input type="text" id="maxAmount" value="max value"><br>
+            <input type="submit" id="customFilterSubmit">
+        </form>
+
       
       <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
+       "use strict";
+
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
        
 
-          function drawMap(results) {
+        function drawMap(results) {
 
-              var data = new google.visualization.DataTable();
-              data.addColumn('string', 'Country');
-              data.addColumn('number', 'Option');
-              data.addRows(results.items);
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Country');
+            data.addColumn('number', 'Option');
+            data.addRows(results.items);
 
-              var options = {
-              colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
+            var options = {
+            colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
 
-              var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
-              
-              chart.draw(data, options);
-               
-              $( "#slider-range-min" ).slider({
-              range: "min",
-              value: results.max_val/2,
-              min: results.min_val,
-              max: results.max_val,
-              slide: function( event, ui ) {
-                $( "#amount" ).val( ui.value );
-                     // $( "#amount" ).val( "$" + ui.value );
-                }
-              });
-              $( "#amount" ).val($( "#slider-range-min" ).slider( "value" ) );
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            
+            chart.draw(data, options);
 
-     // $( "#amount" ).val( "$" + $( "#slider-range-min" ).slider( "value" ) );
+        };
 
+        
+        function updateMapData(){
+          var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
+          $.get("/" + currentOptionRoute + ".json", drawMap);
           };
 
-          function updateMapData(){
-             var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
-             //add in the data to send to the server($( "#amount" ).val() in this Ajax call for querying purposes)
-        
-              $.get(currentOptionRoute, drawMap);
+        $('#generalFilter').on('change', updateMapData);
+
+
+        function filterMapData(evt){
+
+          evt.preventDefault();
+
+          var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
+
+          console.log(currentOptionRoute)
+
+          var formInputs = {
+            "filterMax": $("#maxAmount").val() 
             };
 
-          $('#generalFilter').on('change', updateMapData);
+          console.log(formInputs)
 
+          $.get("/" + currentOptionRoute + "Filter" + ".json", formInputs, drawMap);        
+          };
 
-
-          function filterMap(){
-
-             var filter = $("#amount" ).val()
-
-             filterInputs = { 'filter' : filter };
-             console.log(filterInputs)
-        
-            $.get("/filterColIndex.json", filterInputs, drawMap); };
-
-          $( "#slider-range-min" ).on('slidestop', filterMap);
+        $('#customFilter').on('submit', filterMapData);
 
         </script>
 
 
    </body>
 </html>
-
-
