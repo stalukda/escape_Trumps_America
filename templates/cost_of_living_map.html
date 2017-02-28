@@ -22,6 +22,14 @@
             <option value="col_index" selected="selected" >Cost of Living Index</option>           
             <option value="bread_price"> Average Bread Price</option>
             <option value="meal_price"> Average Restaurant Meal Price </option>
+            <option value="apt_price"> Average Monthly Apt Rental Price </option>
+            <option value="health_care_index"> Health Care Index </option>
+            <option value="crime_index"> Crime Index </option>
+            <option value="pollution_index"> Pollution Index </option>
+            <option value="traffic_index"> Traffic Index </option>
+            <option value="groceries_index"> Groceries Index </option>
+            <option value="rent_index"> Rent Index </option>   
+            <option value="property_price_to_income_ratio"> Property Price to Income Ratio  </option>         
             </select>
         </form>
 
@@ -34,7 +42,6 @@
       
       <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
-       "use strict";
 
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);

@@ -232,6 +232,126 @@ def getMealPrice():
     return jsonify(results)
 
 
+@app.route("/apt_price.json", methods=["GET"])
+def getAptPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.apt_price:
+            country_list.append([nation.country_name, nation.apt_price])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/health_care_index.json", methods=["GET"])
+def getHealthCarePrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.health_care_index:
+            country_list.append([nation.country_name, nation.health_care_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/crime_index.json", methods=["GET"])
+def getCrimeIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.crime_index:
+            country_list.append([nation.country_name, nation.crime_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/pollution_index.json", methods=["GET"])
+def getPollutionIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.pollution_index:
+            country_list.append([nation.country_name, nation.pollution_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/traffic_index.json", methods=["GET"])
+def getTrafficIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.traffic_index:
+            country_list.append([nation.country_name, nation.traffic_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/groceries_index.json", methods=["GET"])
+def getGroceriesIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.groceries_index:
+            country_list.append([nation.country_name, nation.groceries_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+@app.route("/rent_index.json", methods=["GET"])
+def getRentIndex():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.rent_index:
+            country_list.append([nation.country_name, nation.rent_index])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
+
+@app.route("/property_price_to_income_ratio.json", methods=["GET"])
+def getPropertyPricetoIncome():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    for nation in nations: 
+        if nation.property_price_to_income_ratio:
+            country_list.append([nation.country_name, nation.property_price_to_income_ratio])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
 @app.route("/col_indexFilter.json", methods=["GET"])
 def filterColIndex():
 
