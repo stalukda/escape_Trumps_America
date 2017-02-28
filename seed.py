@@ -27,9 +27,9 @@ def load_users():
                     home_country=home_country)
 
         # We need to add to the session or it won't ever be stored
-        # db.session.add(user)
+        db.session.add(user)
 
-    # db.session.commit()
+    db.session.commit()
 
 
 def load_currency():
@@ -46,7 +46,7 @@ def load_currency():
             currency_code=currency_code)
 
         db.session.add(country)
-    # db.session.commit()
+    db.session.commit()
 
 
 def url_to_json(url, parameters):
@@ -115,16 +115,32 @@ def load_cost_of_living_index():
 
         data = url_to_json('https://www.numbeo.com/api/country_indices', {'api_key': 'ps0u1c65ijsjqn', 'country': nation}) 
         try: 
-            col_index = data['cpi_index']
-            print "col_index", col_index
+            quality_of_life_index = data['quality_of_life_index']
+            # col_index = data['cpi_index']
+            # health_care_index = data['health_care_index']
+            # crime_index = data['crime_index']
+            # pollution_index = data['pollution_index']
+            # traffic_index = data['traffic_index']
+            # groceries_index = data['groceries_index']
+            # rent_index = data['rent_index']
+            # property_price_to_income_ratio = data['property_price_to_income_ratio']
+
         except: 
-            print nation
+            print nation #log to error log 
 
         countries = Country.query.filter(Country.country_name == nation).all()
 
         if countries: 
             for country in countries: 
-                country.col_index = col_index 
+                # country.col_index = col_index 
+                # country.health_care_index = health_care_index
+                # country.crime_index = crime_index
+                # country.pollution_index = pollution_index
+                # country.traffic_index = traffic_index
+                # country.groceries_index = groceries_index
+                # country.rent_index = rent_index
+                # country.property_price_to_income_ratio = property_price_to_income_ratio
+                country.quality_of_life_index = quality_of_life_index # not working for some reason 
                 db.session.commit()
 
 

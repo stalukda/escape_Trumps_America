@@ -52,6 +52,14 @@ class Country(db.Model):
     meal_price = db.Column(db.Float, nullable=True)
     apt_price = db.Column(db.Float, nullable=True)
     col_index = db.Column(db.Float, nullable=True)
+    health_care_index = db.Column(db.Float, nullable=True)
+    crime_index = db.Column(db.Float, nullable=True)
+    pollution_index = db.Column(db.Float, nullable=True)
+    traffic_index = db.Column(db.Float, nullable=True)
+    quality_of_life_index = db.Column(db.Float, nullable=True)
+    groceries_index = db.Column(db.Float, nullable=True)
+    rent_index = db.Column(db.Float, nullable=True)
+    property_price_to_income_ratio = db.Column(db.Float, nullable=True)
 
     def __repr__(self):
 
