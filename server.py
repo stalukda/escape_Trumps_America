@@ -407,6 +407,28 @@ def filterMealPrice():
 
     return jsonify(results)
 
+
+@app.route("/multiFormPick.json", methods=["GET"])
+def multiFormPick():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    col_index = request.args.get('colindex')
+    col_index = int(col_index)
+
+    bread_price = request.args.get('breadprice')
+    bread_price = int(bread_price)
+
+    for nation in nations:
+        if nation.col_index < col_index and nation.bread_price < bread_price:
+            country_list.append([nation.country_name, nation.bread_price])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
 @app.route('/country_picks.json')
 def country_picks_data():
     """Return data about Country picks."""

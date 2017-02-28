@@ -39,6 +39,12 @@
             <input type="submit" id="customFilterSubmit">
         </form>
 
+        <div id="multiFilterForm">
+        <form id = "multiFilter">
+            Max COL: <input type="text" id="col_index_multi" value="max value"><br>
+            Max Bread: <input type="text" id="bread_price_multi" value="max value"><br>
+            <input type="submit" id="multiFilterSubmit">
+        </form>
       
       <div id="chart_div" class="country_gmaps_rankings"></div>
        <script type='text/javascript'>
@@ -65,31 +71,39 @@
 
         
         function updateMapData(){
-          var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
-          $.get("/" + currentOptionRoute + ".json", drawMap);
-          };
+          
+            var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
+            $.get("/" + currentOptionRoute + ".json", drawMap);
+            };
 
         $('#generalFilter').on('change', updateMapData);
 
 
         function filterMapData(evt){
 
-          evt.preventDefault();
-
-          var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
-
-          console.log(currentOptionRoute)
-
-          var formInputs = {
-            "filterMax": $("#maxAmount").val() 
+            evt.preventDefault();
+            var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
+            var formInputs = {
+              "filterMax": $("#maxAmount").val() 
+              };
+            $.get("/" + currentOptionRoute + "Filter" + ".json", formInputs, drawMap);        
             };
 
-          console.log(formInputs)
-
-          $.get("/" + currentOptionRoute + "Filter" + ".json", formInputs, drawMap);        
-          };
-
         $('#customFilter').on('submit', filterMapData);
+
+        function MultiFilterMapData(evt){
+
+            evt.preventDefault();
+            var formInputs = {
+              "colindex": $("#col_index_multi").val(),
+              "breadprice": $("#bread_price_multi").val()
+              };
+
+            console.log(formInputs)
+            $.get("/multiFormPick.json", formInputs, drawMap);        
+            };
+
+        $('#multiFilterSubmit').on('click', MultiFilterMapData);
 
         </script>
 
