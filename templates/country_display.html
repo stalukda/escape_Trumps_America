@@ -6,88 +6,137 @@
 
    <div id="country-data">
 
-    <table style="width:100%">
-        <tr>
-            <th>Country </th>
-            <th>Worth per USD</th>
-            <th>Average bread price</th>
-            <th>Average meal price</th>
-            <th>Average apartment price per month</th>
-            <th>Groceries index</th>
-            <th>Invest in local entrepreneur</th>
-        </tr>
+<table style="width:100%">
 
-        <tr>
-            <td> {{ user.country.country_name }} </td>
-            <td>      {{ "${:.2f}".format(user.country.currency_per_USD) if user.country.currency_per_USD else "None" }} in {{ user.country.currency_name}}s </td>  
-            <td> {{ "${:.2f}".format(user.country.bread_price) if user.country.bread_price else "None" }} </td>
-            <td> {{ "${:.2f}".format(user.country.meal_price) if user.country.meal_price else "None" }} </td>
-            <td> {{ "${:.2f}".format(user.country.apt_price) if user.country.apt_price else "None" }} </td>
-
-        </tr>
-     
-
+    <tr>
+        <th></th>
         {% for countries in country_info %}
             {% for country in countries %}
-            <tr class='allCountries' data-country-id="{{ country.country_code }}">
-                <td>{{ country.country_name}} </td>
-                <td>{{ "${:.2f}".format(country.currency_per_USD) if country.currency_per_USD else "None" }}  in {{ country.currency_name}}s </td>
-
-                
-                <td>{{ "${:.2f}".format(country.bread_price) if country.bread_price else "None" }} </td>
-                <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
-                <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
-                <td>{{ "{:.2f}".format(country.groceries_index) if country.groceries_index else "None" }} </td>
-                <td> <a href={{ countries[country] }}> Invest </a> </td>
-            </tr>
+        <td>{{ country.country_name }}</td>
             {% endfor %}
         {% endfor %}
+    </tr>
 
+    <tr>
+        <th>Invest </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+          <td> <a href={{ countries[country] }}> Kiva </a> </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
 
+    <tr>
+        <th>Cost of Living Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.col_index) if country.col_index else "None" }}  </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
 
+    <tr>
+        <th>Meal price</th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Worth per USD</th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>  {{ "{:.2f}".format(country.currency_per_USD) if country.currency_per_USD else "None" }} {{ country.currency_name}}s</td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Restaurant ($) meal </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Monthly apt rental </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Groceries Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.groceries_index) if country.groceries_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Healthcare Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.health_care_index) if country.health_care_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Crime Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.crime_index) if country.crime_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Pollution Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.pollution_index) if country.pollution_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Traffic Index </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.traffic_index) if country.traffic_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> RentIndex </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.rent_index) if country.rent_index else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th> Property Price to Income Ratio </th>
+        {% for countries in country_info %}
+            {% for country in countries %}
+        <td>{{ "{:.2f}".format(country.    property_price_to_income_ratio) if country.property_price_to_income_ratio else "None" }} </td>
+            {% endfor %}
+        {% endfor %}
+    </tr>
+
+</table>
     </table>
    </div>
-
-  <div class="country-chart">
-    <canvas id="barChart"></canvas>
-    <div id="barLegend" class="chart-legend"></div>
-  </div>
-
-<script>
-
-    // This code below creates a JS array (good) but of the whole row, inlcuding TRs...table rows (bad)
-    // var allCountries = [];
-    // allCountries.push($('.allCountries').get());
-
-    //This code is much better.. 
-    //Creates a jquery array by mapping to javascript array bc Ajax does not recognize JQuery arrays 
-    //Alternative implementation: session
-    var countriesArray = $.map($('.allCountries'), function(item) {
-         return $(item).data('country-id')
-    });
-
-    var options = {
-      responsive: true
-    };
-
-    var ctx_bar = $("#barChart").get(0).getContext("2d");
-
-    console.log('countries array', countriesArray);
-
-    $.get("/country_picks.json", {countryList: countriesArray}, function (data) {
-
-      console.log("data", data);
-
-    var myBarChart = new Chart(ctx_bar, {
-                                  type: 'bar',
-                                  data: data,
-                                  options: options
-    });
-
-      $("#barLegend").html(myBarChart.generateLegend());
-    });
-
-  </script>
 
 {% endblock %}
 

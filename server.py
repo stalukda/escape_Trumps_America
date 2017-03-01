@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Country, Country_Search
 from sqlalchemy import desc, func
+import json 
+import flickrapi
 
 app = Flask(__name__)
 
@@ -521,6 +523,7 @@ def country_picks_data():
             }
  
     return jsonify(data)
+
 
 if __name__ == "__main__":
     app.debug = True
