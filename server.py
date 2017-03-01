@@ -414,6 +414,15 @@ def multiFormPick():
 
     col_index = request.args.get('colindex')
     bread_price = request.args.get('breadprice')
+    meal_price = request.args.get('mealprice')
+    apt_price = request.args.get('apt_price')
+    groceries_index = request.args.get('groceries_index')
+    rent_index = request.args.get('rent_index')
+    property_price_to_income_ratio = request.args.get('property_price_to_income_ratio')
+    crime_index = request.args.get('crime_index')
+    health_care_index = request.args.get('health_care_index')
+    pollution_index = request.args.get('pollution_index')
+    traffic_index = request.args.get('traffic_index')
 
     country_list = []
 
@@ -425,6 +434,34 @@ def multiFormPick():
     if bread_price:
         q = q.filter(Country.bread_price < bread_price)
 
+    if meal_price:
+        q = q.filter(Country.meal_price < meal)
+
+    if apt_price:
+        q = q.filter(Country.apt_price < apt_price)
+
+    if groceries_index:
+        q = q.filter(Country.groceries_index < groceries_index)
+
+    if rent_index:
+        q = q.filter(Country.rent_index < rent_index)
+
+    if property_price_to_income_ratio:
+        q = q.filter(Country.property_price_to_income_ratio < property_price_to_income_ratio)
+
+    if health_care_index:
+        q = q.filter(Country.health_care_index < health_care_index)
+
+    if crime_index:
+        q = q.filter(Country.crime_index < crime_index)
+
+    if pollution_index:
+        q = q.filter(Country.pollution_index < pollution_index)
+
+    if traffic_index:
+        q = q.filter(Country.traffic_index < traffic_index)
+
+
     q = q.all()
 
     for country,factor in q:
@@ -433,10 +470,6 @@ def multiFormPick():
     results = {'items': country_list}
 
     return jsonify(results)
-
-
-
-
 
 
 @app.route('/country_picks.json')

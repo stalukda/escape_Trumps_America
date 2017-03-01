@@ -41,8 +41,21 @@
 
         <div id="multiFilterForm">
         <form id = "multiFilter">
-            Max COL: <input type="text" id="col_index_multi" value="" ><br>
-            Max Bread: <input type="text" id="bread_price_multi" value="" ><br>
+            Cost of Living Index: <input type="text" id="col_index_multi"><br>
+            Bread Price: <input type="text" id="bread_price_multi"><br>
+
+            Inexpensive Restaurant Meal Price: <input type="text" id="meal_price_multi"><br>
+            Monthly Apt Rental Price: <input type="text" id="apt_price_multi"><br>
+            Groceries Index: <input type="text" id="groceries_index_multi"><br>
+            Rent Index: <input type="text" id="rent_index_multi"><br>
+            Property Price to Income Ratio: <input type="text" id="property_price_to_income_ratio_multi"><br>
+            <br>
+            <br>
+            <p> Quality of Life Factors </p>            
+            Health Care Index: <input type="text" id="health_care_index_multi"><br>
+            Crime Index: <input type="text" id="crime_index_multi"><br>
+            Pollution Index: <input type="text" id="pollution_index_multi"><br>
+            Traffic Index: <input type="text" id="traffic_index_multi"><br>
             <input type="submit" id="multiFilterSubmit">
         </form>
       
@@ -98,7 +111,16 @@
 
             var formInputs = {
               "colindex": $("#col_index_multi").val(),
-              "breadprice": $("#bread_price_multi").val()
+              "breadprice": $("#bread_price_multi").val(),
+              "mealprice": $("#meal_price_multi").val(),
+              "apt_price": $("#apt_price_multi").val(),
+              "groceries_index": $("#groceries_index_multi").val(),
+              "rent_index": $("#rent_index_multi").val(),
+              "property_price_to_income_ratio": $("#property_price_to_income_ratio_multi").val(),
+              "health_care_index": $("#health_care_index_multi").val(),
+              "crime_index": $("#crime_index_multi").val(),
+              "pollution_index": $("#pollution_index_multi").val(),
+              "traffic_index": $("#traffic_index_multi").val()
               };
 
             $.get("/multiFormPick.json", formInputs, drawMap);        
