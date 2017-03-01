@@ -13,6 +13,7 @@
             <th>Average bread price</th>
             <th>Average meal price</th>
             <th>Average apartment price per month</th>
+            <th>Groceries index</th>
             <th>Invest in local entrepreneur</th>
         </tr>
 
@@ -36,6 +37,7 @@
                 <td>{{ "${:.2f}".format(country.bread_price) if country.bread_price else "None" }} </td>
                 <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
                 <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
+                <td>{{ "{:.2f}".format(country.groceries_index) if country.groceries_index else "None" }} </td>
                 <td> <a href={{ countries[country] }}> Invest </a> </td>
             </tr>
             {% endfor %}

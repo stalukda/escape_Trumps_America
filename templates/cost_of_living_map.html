@@ -70,7 +70,7 @@
 
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Country');
-            data.addColumn('number', 'Option');
+            data.addColumn('number', $( "select#generalFilter option:selected" ).val());
             data.addRows(results.items);
 
             var options = {
@@ -104,6 +104,22 @@
 
         $('#customFilter').on('submit', filterMapData);
 
+
+        function drawMultiFilterMap(results) {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Country');
+            data.addColumn('number', 'Cost of Living Index');
+            data.addRows(results.items);
+
+            var options = {
+            colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
+
+            var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+            
+            chart.draw(data, options);
+
+        };
         
         function MultiFilterMapData(evt){
 
@@ -123,7 +139,7 @@
               "traffic_index": $("#traffic_index_multi").val()
               };
 
-            $.get("/multiFormPick.json", formInputs, drawMap);        
+            $.get("/multiFormPick.json", formInputs, drawMultiFilterMap);        
             };
 
         $('#multiFilterSubmit').on('click', MultiFilterMapData);
