@@ -41,8 +41,8 @@
 
         <div id="multiFilterForm">
         <form id = "multiFilter">
-            Max COL: <input type="text" id="col_index_multi" value="max value"><br>
-            Max Bread: <input type="text" id="bread_price_multi" value="max value"><br>
+            Max COL: <input type="text" id="col_index_multi" value="" ><br>
+            Max Bread: <input type="text" id="bread_price_multi" value="" ><br>
             <input type="submit" id="multiFilterSubmit">
         </form>
       
@@ -91,15 +91,16 @@
 
         $('#customFilter').on('submit', filterMapData);
 
+        
         function MultiFilterMapData(evt){
 
             evt.preventDefault();
+
             var formInputs = {
               "colindex": $("#col_index_multi").val(),
               "breadprice": $("#bread_price_multi").val()
               };
 
-            console.log(formInputs)
             $.get("/multiFormPick.json", formInputs, drawMap);        
             };
 

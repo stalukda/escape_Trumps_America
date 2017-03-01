@@ -351,6 +351,7 @@ def getPropertyPricetoIncome():
     results = {'items': country_list}
 
     return jsonify(results)
+ 
 
 @app.route("/col_indexFilter.json", methods=["GET"])
 def filterColIndex():
@@ -411,22 +412,31 @@ def filterMealPrice():
 @app.route("/multiFormPick.json", methods=["GET"])
 def multiFormPick():
 
-    nations = Country.query.order_by('country_name').all()
+    col_index = request.args.get('colindex')
+    bread_price = request.args.get('breadprice')
+
     country_list = []
 
-    col_index = request.args.get('colindex')
-    col_index = int(col_index)
+    q = db.session.query(Country.country_name, Country.col_index)
 
-    bread_price = request.args.get('breadprice')
-    bread_price = int(bread_price)
+    if col_index: 
+        q = q.filter(Country.col_index < col_index)
 
-    for nation in nations:
-        if nation.col_index < col_index and nation.bread_price < bread_price:
-            country_list.append([nation.country_name, nation.bread_price])
+    if bread_price:
+        q = q.filter(Country.bread_price < bread_price)
+
+    q = q.all()
+
+    for country,factor in q:
+        country_list.append([country, factor])
 
     results = {'items': country_list}
 
     return jsonify(results)
+
+
+
+
 
 
 @app.route('/country_picks.json')
