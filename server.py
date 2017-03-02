@@ -174,8 +174,30 @@ def compare_countries():
             country_info.append(country_with_urls)
 
 
+    api_key = u'9489272c64643fc71165347fccfebbc0'
+    api_secret = u'81789d543c6d0977'
+
+    flickr = flickrapi.FlickrAPI(api_key, api_secret)
+
+    country = "Beautiful Peru"
+    photo = flickr.photos.search(per_page='1', format='json', text=country)
+    photo_info = json.loads(photo)
+
+    farm_id = photo_info['photos']['photo'][0]['farm']
+    server_id = photo_info['photos']['photo'][0]['server']
+    photo_id = photo_info['photos']['photo'][0]['id']
+    secret = photo_info['photos']['photo'][0]['secret']
+
+    user_id = photo_info['photos']['photo'][0]['owner']
+
+    photo_source_template = "https://flickr.com/photos/{}/{}/"
+    photo_source_url = photo_source_template.format(user_id, photo_id)
+
+    static_photo_source_template = "https://farm{}.staticflickr.com/{}/{}_{}.jpg"
+    static_photo_source_url = static_photo_source_template.format(farm_id, server_id, photo_id, secret)
+
     #TABLE  
-    return render_template("country_display.html", country_info=country_info, user=user)
+    return render_template("country_display.html", country_info=country_info, user=user, src_url=static_photo_source_url)
 
 
 
@@ -523,27 +545,6 @@ def country_picks_data():
             }
  
     return jsonify(data)
-
-
-@app.route('/display_country_pic.json')
-def get_image_url():
-
-    api_key = u'9489272c64643fc71165347fccfebbc0'
-    api_secret = u'81789d543c6d0977'
-
-    flickr = flickrapi.FlickrAPI(api_key, api_secret)
-
-    country = "Cambodia"
-    photo = flickr.photos.search(per_page='1', format='json', text=country)
-    photo_info = json.loads(photo)
-
-    photo_id = photo_info['photos']['photo'][0]['id']
-    user_id = photo_info['photos']['photo'][0]['owner']
-
-    photo_source_template = "https://flickr.com/photos/{}/{}/"
-    photo_source_url = photo_source_template.format(user_id, photo_id)
-    return photo_source_url
-
 
 
 
