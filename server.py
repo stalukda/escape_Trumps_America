@@ -525,6 +525,28 @@ def country_picks_data():
     return jsonify(data)
 
 
+@app.route('/display_country_pic.json')
+def get_image_url():
+
+    api_key = u'9489272c64643fc71165347fccfebbc0'
+    api_secret = u'81789d543c6d0977'
+
+    flickr = flickrapi.FlickrAPI(api_key, api_secret)
+
+    country = "Cambodia"
+    photo = flickr.photos.search(per_page='1', format='json', text=country)
+    photo_info = json.loads(photo)
+
+    photo_id = photo_info['photos']['photo'][0]['id']
+    user_id = photo_info['photos']['photo'][0]['owner']
+
+    photo_source_template = "https://flickr.com/photos/{}/{}/"
+    photo_source_url = photo_source_template.format(user_id, photo_id)
+    return photo_source_url
+
+
+
+
 if __name__ == "__main__":
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
