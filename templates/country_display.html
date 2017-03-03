@@ -6,11 +6,11 @@
 
         <div> </div>
 
-        <img id="country1" src= {{ src_url }} height="300" width="300">
+        {% for url in urls %}
 
-        <img id="country2" src="http://shakhtar.com/data/imgdata/foto/news/226748__max_news.jpg" height="300" width="300">
+        <img id={{ url }} src={{ url }} height="300" width="300">
 
-        <img id="country3" src="http://www.ornitravel.com/wp-content/uploads/2016/08/Amazing-Portugal.jpg" height="300" width="300">
+        {% endfor %}
 
    <div id="country-data">
 

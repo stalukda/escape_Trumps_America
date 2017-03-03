@@ -155,6 +155,10 @@ def choose_countries():
 def compare_countries():
     """Compare the 3-5 chosen countries"""
 
+    #gather a list of country URLs
+    #send to front end 
+    #iterate through and create images 
+
     user_id = session.get("user_id")
     
     if user_id:
@@ -162,24 +166,34 @@ def compare_countries():
 
     nations = request.args.getlist('countries')
     country_info = []
+    urls = []
 
     for nation in nations: 
         url = "https://www.kiva.org/lend?country="
         #check each nation picked against the db 
         country = Country.query.filter_by(country_name=nation).first()
-        
+        country_name = country.country_name
+        country_name = str(country_name)
+        country_pic = flickr_pics(country_name)
+        urls.append(country_pic)
+
         if country: 
             country_with_urls = {}
             country_with_urls[country] = url + country.country_code
             country_info.append(country_with_urls)
 
+    print "*" * 20
+    print country_info 
+    print urls
+    return render_template("country_display.html", country_info=country_info, user=user, urls=urls)
+
+def flickr_pics(country_name):
 
     api_key = u'9489272c64643fc71165347fccfebbc0'
     api_secret = u'81789d543c6d0977'
-
     flickr = flickrapi.FlickrAPI(api_key, api_secret)
 
-    country = "Beautiful Peru"
+    country = "amazing view" + " " + country_name 
     photo = flickr.photos.search(per_page='1', format='json', text=country)
     photo_info = json.loads(photo)
 
@@ -195,11 +209,7 @@ def compare_countries():
 
     static_photo_source_template = "https://farm{}.staticflickr.com/{}/{}_{}.jpg"
     static_photo_source_url = static_photo_source_template.format(farm_id, server_id, photo_id, secret)
-
-    #TABLE  
-    return render_template("country_display.html", country_info=country_info, user=user, src_url=static_photo_source_url)
-
-
+    return static_photo_source_url
 
 @app.route("/col_index.json", methods=["GET"])
 def getCpiIndex():
