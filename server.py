@@ -193,8 +193,8 @@ def flickr_pics(country_name):
     api_secret = u'81789d543c6d0977'
     flickr = flickrapi.FlickrAPI(api_key, api_secret)
 
-    country = "amazing view" + " " + country_name 
-    photo = flickr.photos.search(per_page='1', format='json', text=country)
+    country = "landmark" + " " + country_name 
+    photo = flickr.photos.search(per_page='1', format='json', text=country, accuracy=3, safe_search=1, content_type=1)
     photo_info = json.loads(photo)
 
     farm_id = photo_info['photos']['photo'][0]['farm']
