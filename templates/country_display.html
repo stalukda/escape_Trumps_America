@@ -2,150 +2,153 @@
 
 {% block content %}
 
-<h2>Countries: </h2>
+    <div class="container">
+    <div class="page-header">
+        <h1>Countries</h1>
+        <p class="lead">For comparison</p>
+    </div>
 
-        <div> </div>
 
+    <div> 
         {% for url in urls %}
-
-        <img id={{ url }} src={{ url }} height="300" width="300">
-
+            <img id={{ url }} src={{ url }} height="300" width="300">
         {% endfor %}
+        <br>
+        <br>
+        <br> 
+    </div>
 
    <div id="country-data">
+        <table style="width:100%" class="table table-hover table-striped">
 
-<table style="width:100%">
-
-    <tr>
-        <th></th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ country.country_name }}</td>
+        <tr>
+            <th></th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ country.country_name }}</td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th>Invest </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-          <td> <a href={{ countries[country] }}> Kiva </a> </td>
+        <tr>
+            <th>Invest </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+              <td> <a href={{ countries[country] }}> Kiva </a> </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th>Cost of Living Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.col_index) if country.col_index else "None" }}  </td>
+        <tr>
+            <th>Cost of Living Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.col_index) if country.col_index else "None" }}  </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th>Meal price</th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+        <tr>
+            <th>Meal price</th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th>Worth per USD</th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>  {{ "{:.2f}".format(country.currency_per_USD) if country.currency_per_USD else "None" }} {{ country.currency_name}}s</td>
+        <tr>
+            <th>Worth per USD</th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>  {{ "{:.2f}".format(country.currency_per_USD) if country.currency_per_USD else "None" }} {{ country.currency_name}}s</td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Restaurant ($) meal </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+        <tr>
+            <th> Restaurant ($) meal </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Monthly apt rental </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
+        <tr>
+            <th> Monthly apt rental </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Groceries Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.groceries_index) if country.groceries_index else "None" }} </td>
+        <tr>
+            <th> Groceries Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.groceries_index) if country.groceries_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Healthcare Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.health_care_index) if country.health_care_index else "None" }} </td>
+        <tr>
+            <th> Healthcare Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.health_care_index) if country.health_care_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Crime Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.crime_index) if country.crime_index else "None" }} </td>
+        <tr>
+            <th> Crime Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.crime_index) if country.crime_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Pollution Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.pollution_index) if country.pollution_index else "None" }} </td>
+        <tr>
+            <th> Pollution Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.pollution_index) if country.pollution_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Traffic Index </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.traffic_index) if country.traffic_index else "None" }} </td>
+        <tr>
+            <th> Traffic Index </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.traffic_index) if country.traffic_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> RentIndex </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.rent_index) if country.rent_index else "None" }} </td>
+        <tr>
+            <th> RentIndex </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.rent_index) if country.rent_index else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-    <tr>
-        <th> Property Price to Income Ratio </th>
-        {% for countries in country_info %}
-            {% for country in countries %}
-        <td>{{ "{:.2f}".format(country.    property_price_to_income_ratio) if country.property_price_to_income_ratio else "None" }} </td>
+        <tr>
+            <th> Property Price to Income Ratio </th>
+            {% for countries in country_info %}
+                {% for country in countries %}
+            <td>{{ "{:.2f}".format(country.    property_price_to_income_ratio) if country.property_price_to_income_ratio else "None" }} </td>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    </tr>
+        </tr>
 
-</table>
-    </table>
+        </table>
    </div>
-
 
 {% endblock %}
 

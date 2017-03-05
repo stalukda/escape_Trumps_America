@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>Welcome!</h2>
+<div class="container">
+  <div class="jumbotron">
+    <h1> Escape Trump's America</h1>
 
-<p> First time user? <a href="/register">Register!</a> </p>
-<p> Returning user? <a href="/login">Log in!</a> </p>
+    <p class="lead">Find a home for the next 4 years.</p>
 
+    <p>
+      <a class="btn btn-lg btn-primary" href="/login" role="button">
+        Log in &raquo;
+      </a>
+    </p>
+  </div>
+</div>
 
 {% endblock %}
