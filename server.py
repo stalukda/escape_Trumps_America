@@ -254,77 +254,6 @@ def getPropertyPricetoIncome():
 
     return jsonify(helper.process_country_factor("property_price_to_income_ratio"))
 
-@app.route("/col_indexFilter.json", methods=["GET"])
-def filterColIndex():
-
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    max_val = request.args.get('filterMax')
-    max_val = int(max_val)
-
-    for nation in nations:
-        if nation.col_index < max_val:
-            country_list.append([nation.country_name, nation.col_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
-
-
-@app.route("/bread_priceFilter.json", methods=["GET"])
-def filterBreadPrice():
-
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    max_val = request.args.get('filterMax')
-    max_val = int(max_val)
-
-    for nation in nations:
-        if nation.bread_price < max_val:
-            country_list.append([nation.country_name, nation.bread_price])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
-
-
-
-@app.route("/meal_priceFilter.json", methods=["GET"])
-def filterMealPrice():
-
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    max_val = request.args.get('filterMax')
-    max_val = int(max_val)
-
-    for nation in nations:
-        if nation.meal_price < max_val:
-            country_list.append([nation.country_name, nation.meal_price])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
-
-
-@app.route("/property_price_to_income_ratioFilter.json", methods=["GET"])
-def filterPropertyPrice():
-
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    max_val = request.args.get('filterMax')
-    max_val = int(max_val)
-
-    for nation in nations:
-        if nation.property_price_to_income_ratio < max_val:
-            country_list.append([nation.country_name, nation.property_price_to_income_ratio])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
 
 @app.route("/multiFormPick.json", methods=["GET"])
 def multiFormPick():
@@ -378,7 +307,6 @@ def multiFormPick():
     if traffic_index:
         q = q.filter(Country.traffic_index < traffic_index)
 
-
     q = q.all()
 
     for country,factor in q:
@@ -387,6 +315,7 @@ def multiFormPick():
     results = {'items': country_list}
 
     return jsonify(results)
+    # return jsonify(process_multiple_country_factors())
 
 
 @app.route('/country_picks.json')

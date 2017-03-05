@@ -18,7 +18,7 @@
        <div style="width:100%;" id="header_gmaps" >
         <form>
              General filters:  <select id="generalFilter" class="mapFilter">
-            <option value="col_index" selected="selected" >Cost of Living Index</option>           
+            <option value="col_index" selected="selected">Cost of Living Index</option>           
             <option value="bread_price"> Average Bread Price</option>
             <option value="meal_price"> Average Restaurant Meal Price </option>
             <option value="apt_price"> Average Monthly Apt Rental Price </option>
@@ -40,7 +40,7 @@
 
         <div id="multiFilterForm">
         <form id = "multiFilter">
-            Cost of Living Index: <input type="text" id="col_index_multi"><br>
+            Cost of Living Index: <input type="text" id="col_index_multi" onmouseover=""><br>
             Bread Price: <input type="text" id="bread_price_multi"><br>
 
             Inexpensive Restaurant Meal Price: <input type="text" id="meal_price_multi"><br>
@@ -58,7 +58,29 @@
             <input type="submit" id="multiFilterSubmit">
         </form>
       
+     <div class="indices_info">
+        <a href="/indices_info" title="About these indices" class="indices_info">
+        <img src="https://www.numbeo.com/images/information.png" class="image_help" alt="Info"/> Explain these indices</a></div>
+
+
       <div id="chart_div" class="country_gmaps_rankings"></div>
+
+      <table id="table_id" class="display">
+    
+        <tr>
+          <th>Countries to Consider</th>
+        </tr>
+    
+        <tr>
+          <td>France</td>
+        </tr>
+
+        <tr>
+          <td>Germany</td>
+        </tr>
+
+      </table>
+
        <script type='text/javascript'>
 
         google.load('visualization', '1', {'packages': ['geochart']});
