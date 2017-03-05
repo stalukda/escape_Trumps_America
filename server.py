@@ -5,6 +5,7 @@ from model import connect_to_db, db, User, Country, Country_Search
 from sqlalchemy import desc, func
 import json 
 import flickrapi
+import helper
 
 app = Flask(__name__)
 
@@ -26,9 +27,7 @@ def index():
 def register_form():
     """Show form for user signup."""
 
-    #query for country + code 
     countries = Country.query.order_by('country_name').all()
-
     return render_template("register_form.html", countries=countries)
 
 
@@ -48,7 +47,6 @@ def register_process():
 
     if not user:
         new_user = User(fname=fname, lname=lname, email=email, password=password, age=age, zipcode=zipcode, home_country=home_country)
-        # new_country_user = Country_Search(new_user)
         db.session.add(new_user)
         db.session.commit()
         flash("User %s added." % email)
@@ -112,12 +110,12 @@ def user_detail(user_id):
     user = User.query.get(user_id)
     return render_template("user.html", user=user)
 
+
 @app.route("/button", methods=['GET'])
 def country_search_button():
     """Chosen button for search"""
 
     nations = Country.query.order_by('country_name').all()
-
     return render_template("search_button.html", nations=nations)
 
 
@@ -125,16 +123,7 @@ def country_search_button():
 def display_map():
     """Render cost of living map"""
 
-    countries = Country.query.order_by('country_name').all()
-    nations = []
-
-    for country in countries:
-        if country.bread_price != 'None': 
-            nations.append(country)
-        else: 
-            pass 
-
-    return render_template("cost_of_living_map.html", nations=nations)
+    return render_template("cost_of_living_map.html")
 
 
 @app.route("/top_ten_list")
@@ -151,13 +140,10 @@ def choose_countries():
     return render_template("pick_countries.html", nations=nations)
 
 
-@app.route("/compare_countries", methods=["GET"])
-def compare_countries():
-    """Compare the 3-5 chosen countries"""
-
-    #gather a list of country URLs
-    #send to front end 
-    #iterate through and create images 
+@app.route("/display_chosen_countries", methods=["GET"])
+def display_chosen_countries():
+    """Display the Flick pictures, cost of living factors, and Kiva links for 
+    the countries the user chose via the Chosen button. """
 
     user_id = session.get("user_id")
     
@@ -170,11 +156,10 @@ def compare_countries():
 
     for nation in nations: 
         url = "https://www.kiva.org/lend?country="
-        #check each nation picked against the db 
         country = Country.query.filter_by(country_name=nation).first()
         country_name = country.country_name
         country_name = str(country_name)
-        country_pic = flickr_pics(country_name)
+        country_pic = helper.flickr_pics(country_name)
         urls.append(country_pic)
 
         if country: 
@@ -182,210 +167,92 @@ def compare_countries():
             country_with_urls[country] = url + country.country_code
             country_info.append(country_with_urls)
 
-    print "*" * 20
-    print country_info 
-    print urls
     return render_template("country_display.html", country_info=country_info, user=user, urls=urls)
 
-def flickr_pics(country_name):
-
-    api_key = u'9489272c64643fc71165347fccfebbc0'
-    api_secret = u'81789d543c6d0977'
-    flickr = flickrapi.FlickrAPI(api_key, api_secret)
-
-    country = "landmark" + " " + country_name 
-    photo = flickr.photos.search(per_page='1', format='json', text=country, accuracy=3, safe_search=1, content_type=1)
-    photo_info = json.loads(photo)
-
-    farm_id = photo_info['photos']['photo'][0]['farm']
-    server_id = photo_info['photos']['photo'][0]['server']
-    photo_id = photo_info['photos']['photo'][0]['id']
-    secret = photo_info['photos']['photo'][0]['secret']
-
-    user_id = photo_info['photos']['photo'][0]['owner']
-
-    photo_source_template = "https://flickr.com/photos/{}/{}/"
-    photo_source_url = photo_source_template.format(user_id, photo_id)
-
-    static_photo_source_template = "https://farm{}.staticflickr.com/{}/{}_{}.jpg"
-    static_photo_source_url = static_photo_source_template.format(farm_id, server_id, photo_id, secret)
-    return static_photo_source_url
 
 @app.route("/col_index.json", methods=["GET"])
 def getCpiIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    min_val_country = Country.query.order_by('col_index').first()
-    min_val = min_val_country.col_index
-    max_val = 0
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    country_list = []
-
-    for nation in nations: 
-        if nation.col_index:
-            country_list.append([nation.country_name, nation.col_index])
-        if nation.col_index > max_val: 
-            max_val = nation.col_index
-
-    results = {'items': country_list, 'min_val': min_val, 'max_val': max_val}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("col_index"))
 
 
 @app.route("/bread_price.json", methods=["GET"])
 def getBreadPrice():
+    
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    for nation in nations: 
-        if nation.bread_price:
-            country_list.append([nation.country_name, nation.bread_price])
-
-    results = {'items': country_list}
-
-    print "*" * 20 
-    print results
-
-    return jsonify(results)
-
+    return jsonify(helper.process_country_factor("bread_price"))
 
 
 @app.route("/meal_price.json", methods=["GET"])
 def getMealPrice():
-
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    for nation in nations: 
-        if nation.meal_price:
-            country_list.append([nation.country_name, nation.meal_price])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+  
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
+    
+    return jsonify(helper.process_country_factor("meal_price"))
 
 
 @app.route("/apt_price.json", methods=["GET"])
 def getAptPrice():
+  
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    for nation in nations: 
-        if nation.apt_price:
-            country_list.append([nation.country_name, nation.apt_price])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("apt_price"))
 
 
 @app.route("/health_care_index.json", methods=["GET"])
 def getHealthCarePrice():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.health_care_index:
-            country_list.append([nation.country_name, nation.health_care_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("health_care_index"))
 
 
 @app.route("/crime_index.json", methods=["GET"])
 def getCrimeIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
-
-    for nation in nations: 
-        if nation.crime_index:
-            country_list.append([nation.country_name, nation.crime_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
-
+    return jsonify(helper.process_country_factor("crime_index"))
 
 @app.route("/pollution_index.json", methods=["GET"])
 def getPollutionIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.pollution_index:
-            country_list.append([nation.country_name, nation.pollution_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("pollution_index"))
 
 
 @app.route("/traffic_index.json", methods=["GET"])
 def getTrafficIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.traffic_index:
-            country_list.append([nation.country_name, nation.traffic_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("traffic_index"))
 
 
 @app.route("/groceries_index.json", methods=["GET"])
 def getGroceriesIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.groceries_index:
-            country_list.append([nation.country_name, nation.groceries_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
+    return jsonify(helper.process_country_factor("groceries_index"))
 
 
 @app.route("/rent_index.json", methods=["GET"])
 def getRentIndex():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.rent_index:
-            country_list.append([nation.country_name, nation.rent_index])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
-
+    return jsonify(helper.process_country_factor("rent_index"))
 
 
 @app.route("/property_price_to_income_ratio.json", methods=["GET"])
 def getPropertyPricetoIncome():
 
-    nations = Country.query.order_by('country_name').all()
-    country_list = []
+    """ Provide Google charts with values to display on world map (Ajax call result)"""
 
-    for nation in nations: 
-        if nation.property_price_to_income_ratio:
-            country_list.append([nation.country_name, nation.property_price_to_income_ratio])
-
-    results = {'items': country_list}
-
-    return jsonify(results)
- 
+    return jsonify(helper.process_country_factor("property_price_to_income_ratio"))
 
 @app.route("/col_indexFilter.json", methods=["GET"])
 def filterColIndex():
@@ -403,7 +270,6 @@ def filterColIndex():
     results = {'items': country_list}
 
     return jsonify(results)
-
 
 
 @app.route("/bread_priceFilter.json", methods=["GET"])
@@ -443,6 +309,23 @@ def filterMealPrice():
     return jsonify(results)
 
 
+@app.route("/property_price_to_income_ratioFilter.json", methods=["GET"])
+def filterPropertyPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    max_val = request.args.get('filterMax')
+    max_val = int(max_val)
+
+    for nation in nations:
+        if nation.property_price_to_income_ratio < max_val:
+            country_list.append([nation.country_name, nation.property_price_to_income_ratio])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
 @app.route("/multiFormPick.json", methods=["GET"])
 def multiFormPick():
 
@@ -469,7 +352,7 @@ def multiFormPick():
         q = q.filter(Country.bread_price < bread_price)
 
     if meal_price:
-        q = q.filter(Country.meal_price < meal)
+        q = q.filter(Country.meal_price < meal_price)
 
     if apt_price:
         q = q.filter(Country.apt_price < apt_price)

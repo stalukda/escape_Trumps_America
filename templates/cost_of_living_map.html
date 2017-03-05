@@ -85,7 +85,7 @@
         function updateMapData(){
           
             var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
-            $.get("/" + currentOptionRoute + ".json", drawMap);
+            $.get("/" + currentOptionRoute + ".json", drawMap)
             };
 
         $('#generalFilter').on('change', updateMapData);
