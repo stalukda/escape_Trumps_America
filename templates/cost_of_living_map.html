@@ -12,12 +12,10 @@
   <body>
     <h2> Cost of Living Index Throughout the World </h1>
 
-    <div class="container">
-    <div class="page-header">
-    </div>
-
-
-       <div style="width:100%;" id="header_gmaps" >
+    <div class="container-fluid">
+     <div class="row" id="featurerow">
+       <div style="width:100%;" id="header_gmaps" > </div>
+        <section class="col-xs-2 feature">
         <form>
              General filters:  <select id="generalFilter" class="mapFilter">
             <option value="col_index" selected="selected">Cost of Living Index</option>           
@@ -30,14 +28,8 @@
             <option value="traffic_index"> Traffic Index </option>
             <option value="groceries_index"> Groceries Index </option>
             <option value="rent_index"> Rent Index </option>   
-            <option value="property_price_to_income_ratio"> Property Price to Income Ratio  </option>         
+            <option value="property_price_to_income_ratio"> Property Price to Income Ratio  </option>     
             </select>
-        </form>
-
-        <div id="customFilterForm">
-        <form id = "customFilter">
-            Filter by: <input type="text" id="maxAmount" value="max value"><br>
-            <input type="submit" id="customFilterSubmit">
         </form>
 
         <div id="multiFilterForm">
@@ -59,65 +51,39 @@
             Traffic Index: <input type="text" id="traffic_index_multi"><br>
             <input type="submit" id="multiFilterSubmit">
         </form>
+
+        </section>
       
-     <div class="indices_info">
-        <a href="/indices_info" title="About these indices" class="indices_info">
-        <img src="https://www.numbeo.com/images/information.png" class="image_help" alt="Info"/> Explain these indices</a></div>
+        <section class="col-xs-10 feature">
+          <div id="chart_div" class="country_gmaps_rankings"></div>
+        </section>
 
-
-      <div id="chart_div" class="country_gmaps_rankings"></div>
-
-      <table id="table_id" class="display">
-    
-        <tr>
-          <th>Countries to Consider</th>
-        </tr>
-    
-        <tr>
-          <td>France</td>
-        </tr>
-
-        <tr>
-          <td>Germany</td>
-        </tr>
-
-      </table>
-
+   </div>
 </div>
        <script type='text/javascript'>
-
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
        
-
         function drawMap(results) {
-
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Country');
             data.addColumn('number', $( "select#generalFilter option:selected" ).val());
             data.addRows(results.items);
-
             var options = {
             colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
-
             var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
             
             chart.draw(data, options);
-
         };
-
         
         function updateMapData(){
           
             var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
             $.get("/" + currentOptionRoute + ".json", drawMap)
             };
-
         $('#generalFilter').on('change', updateMapData);
-
-
+        
         function filterMapData(evt){
-
             evt.preventDefault();
             var currentOptionRoute = $( "select#generalFilter option:selected" ).val();
             var formInputs = {
@@ -125,30 +91,23 @@
               };
             $.get("/" + currentOptionRoute + "Filter" + ".json", formInputs, drawMap);        
             };
-
-        $('#customFilter').on('submit', filterMapData);
-
-
+        
+    
+        
         function drawMultiFilterMap(results) {
-
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Country');
             data.addColumn('number', 'Cost of Living Index');
             data.addRows(results.items);
-
             var options = {
             colorAxis: {colors: [ '#551a8b', '#17e617', '#ffff00', '#e6e617', '#ffa500', '#ff0000']}}
-
             var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
             
             chart.draw(data, options);
-
         };
         
         function MultiFilterMapData(evt){
-
             evt.preventDefault();
-
             var formInputs = {
               "colindex": $("#col_index_multi").val(),
               "breadprice": $("#bread_price_multi").val(),
@@ -162,12 +121,9 @@
               "pollution_index": $("#pollution_index_multi").val(),
               "traffic_index": $("#traffic_index_multi").val()
               };
-
             $.get("/multiFormPick.json", formInputs, drawMultiFilterMap);        
             };
-
         $('#multiFilterSubmit').on('click', MultiFilterMapData);
-
         </script>
 
 
