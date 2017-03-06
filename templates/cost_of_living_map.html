@@ -5,6 +5,8 @@
       <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
       <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <title> Cost of Living Index 2017</title>
 
   </head>
@@ -12,7 +14,160 @@
   <body>
     <h2> Cost of Living Index Throughout the World </h1>
 
-    <div class="container-fluid">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-xs-6 col-sm-3">
+      <div id="accordion" class="panel panel-primary behclick-panel">
+        <div class="panel-heading">
+          <h3 class="panel-title">Filter Country Factors</h3>
+        </div>
+        <div class="panel-body" >
+          <div class="panel-heading " >
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse0">
+                <i class="indicator fa fa-caret-down" aria-hidden="true"></i> Overview
+              </a>
+            </h4>
+          </div>
+
+          <div id="collapse0" class="panel-collapse collapse in" >
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="text">
+                  <label>
+                    <input type="text" value="" id="col_index_multi">
+                    <br>
+                    Cost of Living Index
+                  </label>
+                </div>
+              </li>
+              
+              <li class="list-group-item">
+                <div class="text" >
+                  <label>
+                    <input type="text" value="" id="bread_price_multi">
+                    <br> 
+                    Loaf of Bread
+                  </label>
+                </div>
+              </li>
+              
+              <li class="list-group-item">
+                <div class="text"  >
+                  <label>
+                    <input type="text" value="" id="apt_price_multi">
+                    <br>
+                    Monthly Rental 
+                  </label>
+                </div>
+              </li>
+              
+              <li class="list-group-item">
+                <div class="text"  >
+                  <label>
+                    <input type="text" value="" id="meal_price_multi">
+                    <br>
+                    Inexpensive Restaurant Meal
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="panel-heading " >
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse1">
+                <i class="indicator fa fa-caret-down" aria-hidden="true"></i> Quality of Life Indices
+              </a>
+            </h4>
+          </div>
+          <div id="collapse1" class="panel-collapse collapse in" >
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="text">
+                  <label>
+                    <input type="text" value="" id="health_care_index_multi">
+                    <br>
+                    Healthcare
+                  </label>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="text" >
+                  <label>
+                    <input type="text" value="" id="crime_index_multi">
+                    <br> 
+                    Crime
+                  </label>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="text"  >
+                  <label>
+                    <input type="text" value="" id="pollution_index_multi">
+                    <br> 
+                    Pollution
+                  </label>
+                </div>
+              </li>
+                            <li class="list-group-item">
+                <div class="text"  >
+                  <label>
+                    <input type="text" value="" id="traffic_index_multi">
+                    <br> 
+                    Traffic
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+              <div class="panel-heading" >
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse2"><i class="indicator fa fa-caret-right" aria-hidden="true"></i> Others</a>
+            </h4>
+          </div>
+          <div id="collapse2" class="panel-collapse collapse">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="text">
+                  <label>
+                    <input type="text" value="" id="property_price_to_income_ratio_multi">
+                    <br>
+                    Property Price to Income Ratio 
+                  </label>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="text" >
+                  <label>
+                    <input type="text" value="" id="groceries_index_multi">
+                    <br>
+                    Groceries Index
+                  </label>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="text">
+                  <label>
+                    <input type="text" value="" id="rent_index_multi">
+                    <br>
+                    Rent Index
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+                             <input type="submit" id="multiFilterSubmit">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
      <div class="row" id="featurerow">
        <div style="width:100%;" id="header_gmaps" > </div>
         <section class="col-xs-2 feature">
@@ -32,29 +187,10 @@
             </select>
         </form>
 
-        <div id="multiFilterForm">
-        <form id = "multiFilter">
-            Cost of Living Index: <input type="text" id="col_index_multi" onmouseover=""><br>
-            Bread Price: <input type="text" id="bread_price_multi"><br>
-
-            Inexpensive Restaurant Meal Price: <input type="text" id="meal_price_multi"><br>
-            Monthly Apt Rental Price: <input type="text" id="apt_price_multi"><br>
-            Groceries Index: <input type="text" id="groceries_index_multi"><br>
-            Rent Index: <input type="text" id="rent_index_multi"><br>
-            Property Price to Income Ratio: <input type="text" id="property_price_to_income_ratio_multi"><br>
-            <br>
-            <br>
-            <p> Quality of Life Factors </p>            
-            Health Care Index: <input type="text" id="health_care_index_multi"><br>
-            Crime Index: <input type="text" id="crime_index_multi"><br>
-            Pollution Index: <input type="text" id="pollution_index_multi"><br>
-            Traffic Index: <input type="text" id="traffic_index_multi"><br>
-            <input type="submit" id="multiFilterSubmit">
-        </form>
 
         </section>
       
-        <section class="col-xs-10 feature">
+        <section class="col-xs-8 feature">
           <div id="chart_div" class="country_gmaps_rankings"></div>
         </section>
 
