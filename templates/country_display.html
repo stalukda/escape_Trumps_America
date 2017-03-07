@@ -11,7 +11,7 @@
 
     <div> 
         {% for url in urls %}
-            <img id={{ url }} src={{ url }} height="300" width="300">
+            <img id={{ url }} src={{ url }} height="250" width="250">
         {% endfor %}
         <br>
         <br>
@@ -49,15 +49,6 @@
         </tr>
 
         <tr>
-            <th>Meal price</th>
-            {% for countries in country_info %}
-                {% for country in countries %}
-            <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
-                {% endfor %}
-            {% endfor %}
-        </tr>
-
-        <tr>
             <th>Worth per USD</th>
             {% for countries in country_info %}
                 {% for country in countries %}
@@ -67,7 +58,7 @@
         </tr>
 
         <tr>
-            <th> Restaurant ($) meal </th>
+            <th> Restaurant ($) Meal </th>
             {% for countries in country_info %}
                 {% for country in countries %}
             <td>{{ "${:.2f}".format(country.meal_price) if country.meal_price else "None" }} </td>
@@ -76,7 +67,7 @@
         </tr>
 
         <tr>
-            <th> Monthly apt rental </th>
+            <th> Monthly Apartment rental </th>
             {% for countries in country_info %}
                 {% for country in countries %}
             <td>{{ "${:.2f}".format(country.apt_price) if country.apt_price else "None" }} </td>
@@ -130,7 +121,7 @@
         </tr>
 
         <tr>
-            <th> RentIndex </th>
+            <th> Rent Index </th>
             {% for countries in country_info %}
                 {% for country in countries %}
             <td>{{ "{:.2f}".format(country.rent_index) if country.rent_index else "None" }} </td>
