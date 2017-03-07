@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="/static/chosen.css">
-  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="/static/style.css">
 
   <title>Countries</title>
 
@@ -13,7 +13,6 @@
 
    <div id="content">
      <form id= "search_button" action="/display_chosen_countries" method="GET">
-          <em>Countries</em>
           <select id="countries" name="countries" multiple="countries" data-placeholder="Compare cost of living (up to 5 countries)" class="chosen-select" multiple style="width:350px;" tabindex="4">
             <option value=""></option>
             {% for nation in nations %}
