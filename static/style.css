@@ -1,5 +1,5 @@
 .jumbotron {
-  background-image: url(trump1.jpg);
+  background-image: url(trump3.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -11,7 +11,7 @@
 
 #slogan {
     font-weight: bold;
-    color: black;
+    color: white;
 }
 
 #multiFilterSubmit {

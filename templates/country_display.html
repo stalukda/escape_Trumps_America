@@ -8,29 +8,19 @@
 
     </div>
 
-
-    <div> 
-       <!--  {% for url in urls %}
-            <img id={{ url }} src={{ url }} height="250" width="250">
-        {% endfor %} -->
-        <br>
-        <br>
-        <br> 
-    </div>
-
    <div id="country-data">
         <table style="width:100%" class="table table-hover table-striped">
 
-
-
+        <div id="country_name_table">
         <tr>
             <th></th>
             {% for countries in country_info %}
                 {% for country in countries %}
-            <td>{{ country.country_name }}</td>
+            <td><b> <center> {{ country.country_name }} </center></b></td>
                 {% endfor %}
             {% endfor %}
         </tr>
+        </div>
 
         <tr> 
             <td> </td>
