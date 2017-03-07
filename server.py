@@ -368,6 +368,10 @@ def country_picks_data():
  
     return jsonify(data)
 
+@app.route('/explain_indices')
+def explain_indices():
+
+    return render_template("/explain_indices.html")
 
 
 if __name__ == "__main__":
