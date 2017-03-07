@@ -10,9 +10,9 @@
 
 
     <div> 
-        {% for url in urls %}
+       <!--  {% for url in urls %}
             <img id={{ url }} src={{ url }} height="250" width="250">
-        {% endfor %}
+        {% endfor %} -->
         <br>
         <br>
         <br> 
@@ -20,6 +20,8 @@
 
    <div id="country-data">
         <table style="width:100%" class="table table-hover table-striped">
+
+
 
         <tr>
             <th></th>
@@ -29,6 +31,15 @@
                 {% endfor %}
             {% endfor %}
         </tr>
+
+        <tr> 
+            <td> </td>
+        {% for url in urls %}
+            <td><img id={{ url }} src={{ url }} height="275" width="275"></td>
+        {% endfor %}
+
+        </tr>
+
 
         <tr>
             <th>Invest </th>
