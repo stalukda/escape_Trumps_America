@@ -34,16 +34,7 @@
             </div>
 
             <div id="collapse0" class="panel-collapse collapse in" >
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <div class="text">
-                    <label>
-                      <input type="text" value="" id="col_index_multi">
-                      <br>
-                      Cost of Living Index
-                    </label>
-                  </div>
-                </li>
+
                 
                 <li class="list-group-item">
                   <div class="text">
@@ -74,6 +65,18 @@
                     </label>
                   </div>
                 </li>
+
+                              <ul class="list-group">
+                <li class="list-group-item">
+                  <div class="text">
+                    <label>
+                      <input type="text" value="" id="col_index_multi">
+                      <br>
+                      Cost of Living Index
+                    </label>
+                  </div>
+                </li>
+                
               </ul>
             </div>
 
@@ -194,6 +197,11 @@
             </select>
         </form>
 
+        <div id="customFilterForm">
+        <form id = "customFilter">
+            Filter by: <input type="text" id="maxAmount" value="max value"><br>
+            <input type="submit" id="customFilterSubmit">
+        </form>
 
         </section>
       
@@ -245,6 +253,7 @@
             };
         
     
+            $('#customFilter').on('submit', filterMapData);
         
         function drawMultiFilterMap(results) {
             var data = new google.visualization.DataTable();
