@@ -174,41 +174,48 @@
           </div>
         </section>
 
+        <div class="row" id="tablerow">
+          <section class="col-xs-2">
+          <form>
+              <br>  
+              <br>     
+               <select id="generalFilter" class="mapFilter">
+              <option value="col_index" selected="selected">Cost of Living Index</option>           
+              <option value="bread_price"> Average Bread Price</option>
+              <option value="meal_price"> Average Restaurant Meal Price </option>
+              <option value="apt_price"> Average Monthly Apt Rental Price </option>
+              <option value="health_care_index"> Health Care Index </option>
+              <option value="crime_index"> Crime Index </option>
+              <option value="pollution_index"> Pollution Index </option>
+              <option value="traffic_index"> Traffic Index </option>
+              <option value="groceries_index"> Groceries Index </option>
+              <option value="rent_index"> Rent Index </option>   
+              <option value="property_price_to_income_ratio"> Property Price to Income Ratio  </option>     
+              </select>
+          </form>
+          </section>
 
-     <section class="col-xs-8 col-xs-offset-2 feature">
-       <div style="width:100%;" id="header_gmaps" > </div>
-    </section>
+          <section class="col-xs-2">
+          <div id="customFilterForm">
+          <form id = "customFilter">
+              <br> 
+              <br> 
+              Filter by: <input type="text" id="maxAmount" value="max value"><br>
+          </section>
 
- 
-        <form>
-            <br>       
-             Quick filter:  <select id="generalFilter" class="mapFilter">
-            <option value="col_index" selected="selected">Cost of Living Index</option>           
-            <option value="bread_price"> Average Bread Price</option>
-            <option value="meal_price"> Average Restaurant Meal Price </option>
-            <option value="apt_price"> Average Monthly Apt Rental Price </option>
-            <option value="health_care_index"> Health Care Index </option>
-            <option value="crime_index"> Crime Index </option>
-            <option value="pollution_index"> Pollution Index </option>
-            <option value="traffic_index"> Traffic Index </option>
-            <option value="groceries_index"> Groceries Index </option>
-            <option value="rent_index"> Rent Index </option>   
-            <option value="property_price_to_income_ratio"> Property Price to Income Ratio  </option>     
-            </select>
-        </form>
+          <section class="col-xs-2">
+              <br> 
+              <br> 
+              <input type="submit" id="customFilterSubmit">
+          </form>
 
-        <div id="customFilterForm">
-        <form id = "customFilter">
-            Filter by: <input type="text" id="maxAmount" value="max value"><br>
-            <input type="submit" id="customFilterSubmit">
-        </form>
-
-        </section>
+          </section>
       
         <section class="col-xs-8 feature">
             <br>
           <div id="chart_div" class="country_gmaps_rankings"> </div>
         </section>
+
 
         <section class="col-xs-6 feature" id="chosen_for_countries"> 
             <div id="chosen_for_countries"> {% include 'search_button.html' %} </div>
