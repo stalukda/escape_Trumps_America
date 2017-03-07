@@ -355,6 +355,25 @@ def filterMealPrice():
     return jsonify(results)
 
 
+
+@app.route("/apt_priceFilter.json", methods=["GET"])
+def filterAptPrice():
+
+    nations = Country.query.order_by('country_name').all()
+    country_list = []
+
+    max_val = request.args.get('filterMax')
+    max_val = int(max_val)
+
+    for nation in nations:
+        if nation.apt_price < max_val:
+            country_list.append([nation.country_name, nation.apt_price])
+
+    results = {'items': country_list}
+
+    return jsonify(results)
+
+
 @app.route('/country_picks.json')
 def country_picks_data():
     """Return data about Country picks."""
