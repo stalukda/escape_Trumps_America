@@ -161,8 +161,8 @@
             </div>
            <input type="submit" id="multiFilterSubmit">
           </div>
-
         </section>
+
 
      <section class="col-xs-6 feature">
        <div style="width:100%;" id="header_gmaps" > </div>
@@ -170,7 +170,8 @@
 
  
         <form>
-             General filters:  <select id="generalFilter" class="mapFilter">
+            <br>       
+             Quick filter:  <select id="generalFilter" class="mapFilter">
             <option value="col_index" selected="selected">Cost of Living Index</option>           
             <option value="bread_price"> Average Bread Price</option>
             <option value="meal_price"> Average Restaurant Meal Price </option>
@@ -189,11 +190,20 @@
         </section>
       
         <section class="col-xs-8 feature">
-          <div id="chart_div" class="country_gmaps_rankings"></div>
+            <br>
+          <div id="chart_div" class="country_gmaps_rankings"> </div>
+        </section>
+
+        <section class="col-xs-12 feature"> 
+            <div> {% include 'search_button.html' %} </div>
         </section>
 
    </div>
 </div>
+
+
+
+
        <script type='text/javascript'>
         google.load('visualization', '1', {'packages': ['geochart']});
         google.setOnLoadCallback(updateMapData);
