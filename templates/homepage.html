@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
+<!-- <div class="container">
   <div class="jumbotron">
     <h1> Escape Trump's America</h1>
 
@@ -12,8 +12,33 @@
         Log in &raquo;
       </a>
     </p>
-  </div>
-</div>
+
+</div> -->
+
+<head>
+<link href="static/style-homepage.css" rel="stylesheet" type="text/css">
+</head>
+
+    <div class="container-fluid" id="homepage">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 left">
+                <p>Escape Trump's America</p>
+            </div>
+            </div>
+        <div class="row">
+            <div class="col-xs-2 col-xs-offset-2">
+                     <div>
+                        <a href="#" class="btn">Log in</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
 
 
 {% endblock %}
