@@ -7,6 +7,11 @@ import json
 import flickrapi
 
 def flickr_pics(country_name):
+    """
+    Provide picture to display for each country. 
+
+    >>> flickr_pics("France")
+    'https://farm1.staticflickr.com/743/33097816880_984e43bf0c.jpg'"""
 
     api_key = u'9489272c64643fc71165347fccfebbc0'
     api_secret = u'81789d543c6d0977'
