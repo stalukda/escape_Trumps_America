@@ -6,6 +6,7 @@ from sqlalchemy import desc, func
 import json 
 import flickrapi
 import helper
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -42,6 +43,8 @@ def register_process():
     age = int(request.form["age"])
     zipcode = request.form["zipcode"]
     home_country = request.form["country_code"]
+
+    password = generate_password_hash(password)
 
     user = User.query.filter_by(email=email).first()
 

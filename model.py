@@ -14,7 +14,7 @@ db = SQLAlchemy()
 # Model definitions
 
 class User(db.Model):
-    """User of The Guilty Traveler website."""
+    """User of Escape Trump's America website."""
 
     __tablename__ = "users"
 
@@ -24,7 +24,7 @@ class User(db.Model):
     fname = db.Column(db.String(64), nullable=True)
     lname = db.Column(db.String(64), nullable=True)
     email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
+    password = db.Column(db.String(500), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     zipcode = db.Column(db.String(15), nullable=True)
     home_country = db.Column(db.String(15), db.ForeignKey('countries.country_code'), nullable=True)
