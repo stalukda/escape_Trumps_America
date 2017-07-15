@@ -79,8 +79,11 @@ def login_process():
         flash("No such user")
         return redirect("/login")
 
-    if user.password != password:
+    if check_password_hash(user.password, password) != True:
         flash("Incorrect password")
+        print("this is the password:", password)
+        print("this is the user.password", user.password)
+        print(check_password_hash(password, user.password))
         return redirect("/login")
 
     session["user_id"] = user.user_id

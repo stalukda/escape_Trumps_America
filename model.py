@@ -1,4 +1,4 @@
-"""Models and database functions for The Guilty Traveler project."""
+"""Models and database functions for Escape Trump's America project."""
 
 from flask_sqlalchemy import SQLAlchemy
 
