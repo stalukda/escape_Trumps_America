@@ -5,6 +5,7 @@ from model import connect_to_db, db, User, Country, Country_Search
 from sqlalchemy import desc, func
 import json 
 import flickrapi
+import os
 
 def flickr_pics(country_name):
     """
@@ -13,12 +14,19 @@ def flickr_pics(country_name):
     >>> flickr_pics("France")
     'https://farm1.staticflickr.com/743/33097816880_984e43bf0c.jpg'"""
 
+    #TODO - get this into my secrets.sh file - figure out how to uniode it in .sh
     api_key = u'9489272c64643fc71165347fccfebbc0'
     api_secret = u'81789d543c6d0977'
+
+    # api_key = os.environ['api_key']
+    # print "API KEY: ", api_key
+    # api_secret = os.environ['api_secret']
+
     flickr = flickrapi.FlickrAPI(api_key, api_secret)
 
     country = "landmark" + " " + country_name 
     photo = flickr.photos.search(per_page='1', format='json', text=country, accuracy=3, safe_search=1, content_type=1)
+    print "this is photo: ", photo
     photo_info = json.loads(photo)
 
     farm_id = photo_info['photos']['photo'][0]['farm']
